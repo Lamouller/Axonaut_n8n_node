@@ -594,6 +594,12 @@ export class Axonaut implements INodeType {
 						action: 'Get a address',
 					},
 					{
+						name: 'Get All',
+						value: 'getAll',
+						description: 'Get all addresses of a company',
+						action: 'Get all addresses',
+					},
+					{
 						name: 'Update',
 						value: 'update',
 						description: 'Update a address',
@@ -606,7 +612,7 @@ export class Axonaut implements INodeType {
 						action: 'Delete a address',
 					},
 				],
-				default: 'get',
+				default: 'getAll',
 			},
 
 			// Bank transaction Operations
@@ -2845,7 +2851,29 @@ export class Axonaut implements INodeType {
 					if (operation === 'get') {
 						const addressLocator = this.getNodeParameter('addressId', i) as any;
 						const addressId = addressLocator.value;
-						responseData = await axonautApiRequest.call(this, 'GET', `/addresses/${addressId}`);
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
+						
+						// Get all addresses for the company, then filter by address ID
+						const addresses = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}/addresses`);
+						responseData = addresses.find((address: any) => address.id.toString() === addressId.toString());
+						
+						if (!responseData) {
+							throw new NodeOperationError(this.getNode(), `Address with ID ${addressId} not found in company ${companyId}`);
+						}
+					}
+					if (operation === 'getAll') {
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						
+						responseData = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}/addresses`);
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
 					}
 					if (operation === 'update') {
 						const addressLocator = this.getNodeParameter('addressId', i) as any;
@@ -2927,27 +2955,8 @@ export class Axonaut implements INodeType {
 						const documentLocator = this.getNodeParameter('documentId', i) as any;
 						const documentId = documentLocator.value;
 						
-						// We need to find the company that has this document
-						const companies = await axonautApiRequest.call(this, 'GET', '/companies');
-						let documentFound = null;
-						
-						for (const company of companies) {
-							try {
-								const documents = await axonautApiRequest.call(this, 'GET', `/companies/${company.id}/documents`);
-								if (Array.isArray(documents)) {
-									documentFound = documents.find(doc => doc.id.toString() === documentId);
-									if (documentFound) break;
-								}
-							} catch (error) {
-								continue;
-							}
-						}
-						
-						if (documentFound) {
-							responseData = documentFound;
-						} else {
-							throw new Error(`Document with ID ${documentId} not found`);
-						}
+						// Use direct API route for documents
+						responseData = await axonautApiRequest.call(this, 'GET', `/documents/${documentId}`);
 					}
 					if (operation === 'update') {
 						const documentLocator = this.getNodeParameter('documentId', i) as any;
