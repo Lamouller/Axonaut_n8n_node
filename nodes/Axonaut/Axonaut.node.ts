@@ -1,13 +1,16 @@
 import {
 	IExecuteFunctions,
+	ILoadOptionsFunctions,
 	INodeExecutionData,
+	INodeListSearchResult,
+	INodePropertyOptions,
 	INodeType,
 	INodeTypeDescription,
 	NodeConnectionType,
 	NodeOperationError,
 } from 'n8n-workflow';
 
-import { axonautApiRequest } from './GenericFunctions';
+import { axonautApiRequest, axonautApiRequestAllItems } from './GenericFunctions';
 
 export class Axonaut implements INodeType {
 	description: INodeTypeDescription = {
@@ -41,24 +44,8 @@ export class Axonaut implements INodeType {
 						value: 'company',
 					},
 					{
-						name: 'Contact',
-						value: 'contact',
-					},
-					{
-						name: 'Deal',
-						value: 'deal',
-					},
-					{
-						name: 'Invoice',
-						value: 'invoice',
-					},
-					{
-						name: 'Product',
-						value: 'product',
-					},
-					{
-						name: 'Project',
-						value: 'project',
+						name: 'Employee (Contact)',
+						value: 'employee',
 					},
 				],
 				default: 'company',
@@ -114,219 +101,44 @@ export class Axonaut implements INodeType {
 				noDataExpression: true,
 				displayOptions: {
 					show: {
-						resource: ['contact'],
+						resource: ['employee'],
 					},
 				},
 				options: [
 					{
 						name: 'Create',
 						value: 'create',
-						description: 'Create a new contact',
-						action: 'Create a contact',
+						description: 'Create a new employee',
+						action: 'Create an employee',
 					},
 					{
 						name: 'Get',
 						value: 'get',
-						description: 'Get a contact by ID',
-						action: 'Get a contact',
+						description: 'Get an employee by ID',
+						action: 'Get an employee',
 					},
 					{
 						name: 'Get Many',
 						value: 'getAll',
-						description: 'Get all contacts',
-						action: 'Get many contacts',
+						description: 'Get all employees',
+						action: 'Get many employees',
 					},
 					{
 						name: 'Update',
 						value: 'update',
-						description: 'Update a contact',
-						action: 'Update a contact',
+						description: 'Update an employee',
+						action: 'Update an employee',
 					},
 					{
 						name: 'Delete',
 						value: 'delete',
-						description: 'Delete a contact',
-						action: 'Delete a contact',
+						description: 'Delete an employee',
+						action: 'Delete an employee',
 					},
 				],
 				default: 'get',
 			},
-			{
-				displayName: 'Operation',
-				name: 'operation',
-				type: 'options',
-				noDataExpression: true,
-				displayOptions: {
-					show: {
-						resource: ['deal'],
-					},
-				},
-				options: [
-					{
-						name: 'Create',
-						value: 'create',
-						description: 'Create a new deal',
-						action: 'Create a deal',
-					},
-					{
-						name: 'Get',
-						value: 'get',
-						description: 'Get a deal by ID',
-						action: 'Get a deal',
-					},
-					{
-						name: 'Get Many',
-						value: 'getAll',
-						description: 'Get all deals',
-						action: 'Get many deals',
-					},
-					{
-						name: 'Update',
-						value: 'update',
-						description: 'Update a deal',
-						action: 'Update a deal',
-					},
-					{
-						name: 'Delete',
-						value: 'delete',
-						description: 'Delete a deal',
-						action: 'Delete a deal',
-					},
-				],
-				default: 'get',
-			},
-			{
-				displayName: 'Operation',
-				name: 'operation',
-				type: 'options',
-				noDataExpression: true,
-				displayOptions: {
-					show: {
-						resource: ['invoice'],
-					},
-				},
-				options: [
-					{
-						name: 'Create',
-						value: 'create',
-						description: 'Create a new invoice',
-						action: 'Create an invoice',
-					},
-					{
-						name: 'Get',
-						value: 'get',
-						description: 'Get an invoice by ID',
-						action: 'Get an invoice',
-					},
-					{
-						name: 'Get Many',
-						value: 'getAll',
-						description: 'Get all invoices',
-						action: 'Get many invoices',
-					},
-					{
-						name: 'Update',
-						value: 'update',
-						description: 'Update an invoice',
-						action: 'Update an invoice',
-					},
-					{
-						name: 'Delete',
-						value: 'delete',
-						description: 'Delete an invoice',
-						action: 'Delete an invoice',
-					},
-				],
-				default: 'get',
-			},
-			{
-				displayName: 'Operation',
-				name: 'operation',
-				type: 'options',
-				noDataExpression: true,
-				displayOptions: {
-					show: {
-						resource: ['product'],
-					},
-				},
-				options: [
-					{
-						name: 'Create',
-						value: 'create',
-						description: 'Create a new product',
-						action: 'Create a product',
-					},
-					{
-						name: 'Get',
-						value: 'get',
-						description: 'Get a product by ID',
-						action: 'Get a product',
-					},
-					{
-						name: 'Get Many',
-						value: 'getAll',
-						description: 'Get all products',
-						action: 'Get many products',
-					},
-					{
-						name: 'Update',
-						value: 'update',
-						description: 'Update a product',
-						action: 'Update a product',
-					},
-					{
-						name: 'Delete',
-						value: 'delete',
-						description: 'Delete a product',
-						action: 'Delete a product',
-					},
-				],
-				default: 'get',
-			},
-			{
-				displayName: 'Operation',
-				name: 'operation',
-				type: 'options',
-				noDataExpression: true,
-				displayOptions: {
-					show: {
-						resource: ['project'],
-					},
-				},
-				options: [
-					{
-						name: 'Create',
-						value: 'create',
-						description: 'Create a new project',
-						action: 'Create a project',
-					},
-					{
-						name: 'Get',
-						value: 'get',
-						description: 'Get a project by ID',
-						action: 'Get a project',
-					},
-					{
-						name: 'Get Many',
-						value: 'getAll',
-						description: 'Get all projects',
-						action: 'Get many projects',
-					},
-					{
-						name: 'Update',
-						value: 'update',
-						description: 'Update a project',
-						action: 'Update a project',
-					},
-					{
-						name: 'Delete',
-						value: 'delete',
-						description: 'Delete a project',
-						action: 'Delete a project',
-					},
-				],
-				default: 'get',
-			},
+
 			// Company ID field
 			{
 				displayName: 'Company ID',
@@ -342,80 +154,38 @@ export class Axonaut implements INodeType {
 				required: true,
 				description: 'The ID of the company',
 			},
-			// Contact ID field
+			// Employee ID field
 			{
-				displayName: 'Contact ID',
-				name: 'contactId',
+				displayName: 'Employee ID',
+				name: 'employeeId',
 				type: 'string',
 				displayOptions: {
 					show: {
-						resource: ['contact'],
+						resource: ['employee'],
 						operation: ['get', 'update', 'delete'],
 					},
 				},
 				default: '',
 				required: true,
-				description: 'The ID of the contact',
+				description: 'The ID of the employee',
 			},
-			// Deal ID field
+			// Company selector for employee operations
 			{
-				displayName: 'Deal ID',
-				name: 'dealId',
-				type: 'string',
+				displayName: 'Company',
+				name: 'companyId',
+				type: 'options',
+				typeOptions: {
+					loadOptionsMethod: 'getCompanies',
+				},
 				displayOptions: {
 					show: {
-						resource: ['deal'],
-						operation: ['get', 'update', 'delete'],
+						resource: ['employee'],
+						operation: ['create'],
 					},
 				},
 				default: '',
 				required: true,
-				description: 'The ID of the deal',
-			},
-			// Invoice ID field
-			{
-				displayName: 'Invoice ID',
-				name: 'invoiceId',
-				type: 'string',
-				displayOptions: {
-					show: {
-						resource: ['invoice'],
-						operation: ['get', 'update', 'delete'],
-					},
-				},
-				default: '',
-				required: true,
-				description: 'The ID of the invoice',
-			},
-			// Product ID field
-			{
-				displayName: 'Product ID',
-				name: 'productId',
-				type: 'string',
-				displayOptions: {
-					show: {
-						resource: ['product'],
-						operation: ['get', 'update', 'delete'],
-					},
-				},
-				default: '',
-				required: true,
-				description: 'The ID of the product',
-			},
-			// Project ID field
-			{
-				displayName: 'Project ID',
-				name: 'projectId',
-				type: 'string',
-				displayOptions: {
-					show: {
-						resource: ['project'],
-						operation: ['get', 'update', 'delete'],
-					},
-				},
-				default: '',
-				required: true,
-				description: 'The ID of the project',
+				description: 'The company this employee belongs to',
 			},
 			// Limit field for getAll operations
 			{
@@ -508,6 +278,24 @@ export class Axonaut implements INodeType {
 		],
 	};
 
+	methods = {
+		loadOptions: {
+			async getCompanies(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const companies = await axonautApiRequest.call(this, 'GET', '/companies');
+				
+				const returnData: INodePropertyOptions[] = [];
+				for (const company of companies) {
+					returnData.push({
+						name: company.name,
+						value: company.id,
+					});
+				}
+				
+				return returnData.sort((a, b) => a.name.localeCompare(b.name));
+			},
+		},
+	};
+
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
@@ -555,183 +343,42 @@ export class Axonaut implements INodeType {
 					}
 				}
 
-				if (resource === 'contact') {
+				if (resource === 'employee') {
 					if (operation === 'create') {
 						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
+						const companyId = this.getNodeParameter('companyId', i);
+						const body: any = {
+							company_id: companyId,
+						};
 
 						Object.assign(body, additionalFields);
 
-						responseData = await axonautApiRequest.call(this, 'POST', '/contacts', body);
+						responseData = await axonautApiRequest.call(this, 'POST', '/employees', body);
 					}
 
 					if (operation === 'get') {
-						const contactId = this.getNodeParameter('contactId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'GET', `/contacts/${contactId}`);
+						const employeeId = this.getNodeParameter('employeeId', i) as string;
+						responseData = await axonautApiRequest.call(this, 'GET', `/employees/${employeeId}`);
 					}
 
 					if (operation === 'getAll') {
 						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/contacts', {}, { limit });
+						responseData = await axonautApiRequest.call(this, 'GET', '/employees', {}, { limit });
 					}
 
 					if (operation === 'update') {
-						const contactId = this.getNodeParameter('contactId', i) as string;
+						const employeeId = this.getNodeParameter('employeeId', i) as string;
 						const additionalFields = this.getNodeParameter('additionalFields', i);
 						const body: any = {};
 
 						Object.assign(body, additionalFields);
 
-						responseData = await axonautApiRequest.call(this, 'PUT', `/contacts/${contactId}`, body);
+						responseData = await axonautApiRequest.call(this, 'PUT', `/employees/${employeeId}`, body);
 					}
 
 					if (operation === 'delete') {
-						const contactId = this.getNodeParameter('contactId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'DELETE', `/contacts/${contactId}`);
-					}
-				}
-
-				if (resource === 'deal') {
-					if (operation === 'create') {
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
-
-						Object.assign(body, additionalFields);
-
-						responseData = await axonautApiRequest.call(this, 'POST', '/deals', body);
-					}
-
-					if (operation === 'get') {
-						const dealId = this.getNodeParameter('dealId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'GET', `/deals/${dealId}`);
-					}
-
-					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/deals', {}, { limit });
-					}
-
-					if (operation === 'update') {
-						const dealId = this.getNodeParameter('dealId', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
-
-						Object.assign(body, additionalFields);
-
-						responseData = await axonautApiRequest.call(this, 'PUT', `/deals/${dealId}`, body);
-					}
-
-					if (operation === 'delete') {
-						const dealId = this.getNodeParameter('dealId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'DELETE', `/deals/${dealId}`);
-					}
-				}
-
-				if (resource === 'invoice') {
-					if (operation === 'create') {
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
-
-						Object.assign(body, additionalFields);
-
-						responseData = await axonautApiRequest.call(this, 'POST', '/invoices', body);
-					}
-
-					if (operation === 'get') {
-						const invoiceId = this.getNodeParameter('invoiceId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'GET', `/invoices/${invoiceId}`);
-					}
-
-					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/invoices', {}, { limit });
-					}
-
-					if (operation === 'update') {
-						const invoiceId = this.getNodeParameter('invoiceId', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
-
-						Object.assign(body, additionalFields);
-
-						responseData = await axonautApiRequest.call(this, 'PUT', `/invoices/${invoiceId}`, body);
-					}
-
-					if (operation === 'delete') {
-						const invoiceId = this.getNodeParameter('invoiceId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'DELETE', `/invoices/${invoiceId}`);
-					}
-				}
-
-				if (resource === 'product') {
-					if (operation === 'create') {
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
-
-						Object.assign(body, additionalFields);
-
-						responseData = await axonautApiRequest.call(this, 'POST', '/products', body);
-					}
-
-					if (operation === 'get') {
-						const productId = this.getNodeParameter('productId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'GET', `/products/${productId}`);
-					}
-
-					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/products', {}, { limit });
-					}
-
-					if (operation === 'update') {
-						const productId = this.getNodeParameter('productId', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
-
-						Object.assign(body, additionalFields);
-
-						responseData = await axonautApiRequest.call(this, 'PUT', `/products/${productId}`, body);
-					}
-
-					if (operation === 'delete') {
-						const productId = this.getNodeParameter('productId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'DELETE', `/products/${productId}`);
-					}
-				}
-
-				if (resource === 'project') {
-					if (operation === 'create') {
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
-
-						Object.assign(body, additionalFields);
-
-						responseData = await axonautApiRequest.call(this, 'POST', '/projects', body);
-					}
-
-					if (operation === 'get') {
-						const projectId = this.getNodeParameter('projectId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'GET', `/projects/${projectId}`);
-					}
-
-					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/projects', {}, { limit });
-					}
-
-					if (operation === 'update') {
-						const projectId = this.getNodeParameter('projectId', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const body: any = {};
-
-						Object.assign(body, additionalFields);
-
-						responseData = await axonautApiRequest.call(this, 'PUT', `/projects/${projectId}`, body);
-					}
-
-					if (operation === 'delete') {
-						const projectId = this.getNodeParameter('projectId', i) as string;
-						responseData = await axonautApiRequest.call(this, 'DELETE', `/projects/${projectId}`);
+						const employeeId = this.getNodeParameter('employeeId', i) as string;
+						responseData = await axonautApiRequest.call(this, 'DELETE', `/employees/${employeeId}`);
 					}
 				}
 
