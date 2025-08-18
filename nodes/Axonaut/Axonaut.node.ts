@@ -567,44 +567,41 @@ export class Axonaut implements INodeType {
 				description: 'The ID of the event',
 			},
 
-			// Dynamic dropdowns for foreign keys
+			// Dynamic dropdowns for foreign keys using resourceLocator
 			{
 				displayName: 'Company',
 				name: 'companyId',
-				type: 'options',
-				typeOptions: {
-					loadOptionsMethod: 'getCompanies',
-				},
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
 				displayOptions: {
 					show: {
 						resource: ['employee', 'opportunity', 'project'],
 						operation: ['create'],
 					},
 				},
-				default: '',
-				required: true,
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a company...',
+						typeOptions: {
+							searchListMethod: 'getCompanies',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
 				description: 'The company this entity belongs to',
 			},
 
-			// Limit field for getAll operations
-			{
-				displayName: 'Limit',
-				name: 'limit',
-				type: 'number',
-				displayOptions: {
-					show: {
-						operation: ['getAll'],
-					},
-				},
-				typeOptions: {
-					minValue: 1,
-					maxValue: 100,
-				},
-				default: 50,
-				description: 'Max number of results to return',
-			},
-
-			// Additional fields collection for create/update operations
+			// Additional fields collection for all operations
 			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
@@ -613,10 +610,26 @@ export class Axonaut implements INodeType {
 				default: {},
 				displayOptions: {
 					show: {
-						operation: ['create', 'update'],
+						operation: ['create', 'update', 'getAll'],
 					},
 				},
 				options: [
+					{
+						displayName: 'Limit',
+						name: 'limit',
+						type: 'number',
+						default: 100,
+						description: 'Maximum number of results to return (applied client-side)',
+						typeOptions: {
+							minValue: 1,
+							maxValue: 1000,
+						},
+						displayOptions: {
+							show: {
+								'/operation': ['getAll'],
+							},
+						},
+					},
 					{
 						displayName: 'Name',
 						name: 'name',
@@ -721,19 +734,27 @@ export class Axonaut implements INodeType {
 	};
 
 	methods = {
-		loadOptions: {
-			async getCompanies(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+		listSearch: {
+			async getCompanies(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
 				const companies = await axonautApiRequest.call(this, 'GET', '/companies');
 				
-				const returnData: INodePropertyOptions[] = [];
-				for (const company of companies) {
-					returnData.push({
-						name: company.name,
-						value: company.id,
-					});
+				const results: INodeListSearchResult = {
+					results: [],
+				};
+				
+				if (Array.isArray(companies)) {
+					for (const company of companies) {
+						const name = company.name || company.raison_sociale || `Company ${company.id}`;
+						if (!filter || name.toLowerCase().includes(filter.toLowerCase())) {
+							results.results.push({
+								name,
+								value: company.id.toString(),
+							});
+						}
+					}
 				}
 				
-				return returnData.sort((a, b) => a.name.localeCompare(b.name));
+				return results;
 			},
 		},
 	};
@@ -762,8 +783,14 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/companies', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/companies');
+						
+						// Apply client-side limit (like Dendreo)
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
 					}
 					if (operation === 'update') {
 						const companyId = this.getNodeParameter('companyId', i) as string;
@@ -782,7 +809,8 @@ export class Axonaut implements INodeType {
 				if (resource === 'employee') {
 					if (operation === 'create') {
 						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const companyId = this.getNodeParameter('companyId', i);
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.mode === 'id' ? companyLocator.value : companyLocator.value;
 						const body: any = { company_id: companyId };
 						Object.assign(body, additionalFields);
 						responseData = await axonautApiRequest.call(this, 'POST', '/employees', body);
@@ -792,8 +820,14 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/employees/${employeeId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/employees', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/employees');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
 					}
 					if (operation === 'update') {
 						const employeeId = this.getNodeParameter('employeeId', i) as string;
@@ -815,8 +849,13 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/invoices/${invoiceId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/invoices', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/invoices');
+						
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
 					}
 				}
 
@@ -824,7 +863,8 @@ export class Axonaut implements INodeType {
 				if (resource === 'opportunity') {
 					if (operation === 'create') {
 						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const companyId = this.getNodeParameter('companyId', i);
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
 						const body: any = { company_id: companyId };
 						Object.assign(body, additionalFields);
 						responseData = await axonautApiRequest.call(this, 'POST', '/opportunities', body);
@@ -834,8 +874,8 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/opportunities/${opportunityId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/opportunities', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/opportunities');
 					}
 					if (operation === 'update') {
 						const opportunityId = this.getNodeParameter('opportunityId', i) as string;
@@ -863,8 +903,8 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/products/${productId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/products', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/products');
 					}
 					if (operation === 'update') {
 						const productId = this.getNodeParameter('productId', i) as string;
@@ -886,8 +926,8 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/quotations/${quotationId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/quotations', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/quotations');
 					}
 				}
 
@@ -895,7 +935,8 @@ export class Axonaut implements INodeType {
 				if (resource === 'project') {
 					if (operation === 'create') {
 						const additionalFields = this.getNodeParameter('additionalFields', i);
-						const companyId = this.getNodeParameter('companyId', i);
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
 						const body: any = { company_id: companyId };
 						Object.assign(body, additionalFields);
 						responseData = await axonautApiRequest.call(this, 'POST', '/projects', body);
@@ -905,8 +946,8 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/projects/${projectId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/projects', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/projects');
 					}
 					if (operation === 'update') {
 						const projectId = this.getNodeParameter('projectId', i) as string;
@@ -928,8 +969,8 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/expenses/${expenseId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/expenses', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/expenses');
 					}
 				}
 
@@ -946,8 +987,8 @@ export class Axonaut implements INodeType {
 						responseData = await axonautApiRequest.call(this, 'GET', `/events/${eventId}`);
 					}
 					if (operation === 'getAll') {
-						const limit = this.getNodeParameter('limit', i);
-						responseData = await axonautApiRequest.call(this, 'GET', '/events', {}, { limit });
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/events');
 					}
 					if (operation === 'update') {
 						const eventId = this.getNodeParameter('eventId', i) as string;
