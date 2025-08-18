@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-axonaut-antislash",
-  	"version": "0.2.1",
+  	"version": "1.4.0",
   "description": "n8n community node for Axonaut API integration",
   "keywords": [
     "n8n-community-node-package",
