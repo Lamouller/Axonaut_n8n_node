@@ -1,4 +1,4 @@
-# n8n-nodes-axonaut
+# n8n-nodes-axonaut-antislash
 
 ![n8n.io - Workflow Automation](https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-logo.png)
 
@@ -19,7 +19,7 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 1. Go to **Settings > Community Nodes**.
 2. Select **Install**.
-3. Enter `n8n-nodes-axonaut` in **Enter npm package name**.
+3. Enter `n8n-nodes-axonaut-antislash` in **Enter npm package name**.
 4. Agree to the [risks](https://docs.n8n.io/integrations/community-nodes/risks/) of using community nodes: select **I understand the risks of installing unverified code from a public source**.
 5. Select **Install**.
 
@@ -141,7 +141,7 @@ npm run build
 npm link
 
 # In your n8n installation directory
-npm link n8n-nodes-axonaut
+npm link n8n-nodes-axonaut-antislash
 ```
 
 ## License

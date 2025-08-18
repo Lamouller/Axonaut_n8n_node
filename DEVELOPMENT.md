@@ -54,7 +54,7 @@ Link the package to test it in your local n8n installation:
 npm link
 
 # In your n8n installation directory
-npm link n8n-nodes-axonaut
+npm link n8n-nodes-axonaut-antislash
 ```
 
 ### 4. Development with Auto-rebuild

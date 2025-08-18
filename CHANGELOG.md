@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2024-01-XX
 
 ### Added
-- Initial release of the Axonaut n8n community node
+- Initial release of the n8n-nodes-axonaut-antislash community node
 - Support for Companies resource (Create, Get, Get Many, Update, Delete)
 - Support for Contacts resource (Create, Get, Get Many, Update, Delete)
 - Support for Deals resource (Create, Get, Get Many, Update, Delete)
