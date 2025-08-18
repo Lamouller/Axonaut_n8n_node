@@ -162,7 +162,18 @@ export class Axonaut implements INodeType {
 						name: 'Supplier Contract',
 						value: 'supplier-contract',
 					},
-
+					{
+						name: 'Supplier Delivery',
+						value: 'supplier-delivery',
+					},
+					{
+						name: 'Diverse Operations',
+						value: 'diverse-operations',
+					},
+					{
+						name: 'Delivery Forms',
+						value: 'delivery-forms',
+					},
 					{
 						name: 'Task',
 						value: 'task',
@@ -428,6 +439,12 @@ export class Axonaut implements INodeType {
 				},
 				options: [
 					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a new quotation',
+						action: 'Create a quotation',
+					},
+					{
 						name: 'Get',
 						value: 'get',
 						description: 'Get a quotation by ID',
@@ -438,6 +455,12 @@ export class Axonaut implements INodeType {
 						value: 'getAll',
 						description: 'Get all quotations',
 						action: 'Get many quotations',
+					},
+					{
+						name: 'Get Company Quotations',
+						value: 'getCompanyQuotations',
+						description: 'Get all quotations of a specific company',
+						action: 'Get company quotations',
 					},
 				],
 				default: 'get',
@@ -558,6 +581,18 @@ export class Axonaut implements INodeType {
 						value: 'update',
 						description: 'Update an event',
 						action: 'Update an event',
+					},
+					{
+						name: 'Get Company Events',
+						value: 'getCompanyEvents',
+						description: 'Get all events of a specific company',
+						action: 'Get company events',
+					},
+					{
+						name: 'Send Email',
+						value: 'send',
+						description: 'Send an event as email',
+						action: 'Send event email',
 					},
 					{
 						name: 'Delete',
@@ -921,6 +956,114 @@ export class Axonaut implements INodeType {
 				default: 'get',
 			},
 
+			// Supplier Delivery Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['supplier-delivery'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a supplier delivery by ID',
+						action: 'Get a supplier delivery',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all supplier deliveries',
+						action: 'Get many supplier deliveries',
+					},
+					{
+						name: 'Create Receipt',
+						value: 'createReceipt',
+						description: 'Receive merchandise for a supplier delivery',
+						action: 'Create delivery receipt',
+					},
+					{
+						name: 'Delete Receipt',
+						value: 'deleteReceipt',
+						description: 'Delete a merchandise receipt',
+						action: 'Delete delivery receipt',
+					},
+				],
+				default: 'getAll',
+			},
+
+			// Diverse Operations Operations  
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['diverse-operations'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a diverse operation by ID',
+						action: 'Get a diverse operation',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all diverse operations',
+						action: 'Get many diverse operations',
+					},
+				],
+				default: 'getAll',
+			},
+
+			// Delivery Forms Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['delivery-forms'],
+					},
+				},
+				options: [
+					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a delivery note from an invoice',
+						action: 'Create a delivery note',
+					},
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a delivery note by ID',
+						action: 'Get a delivery note',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all delivery notes',
+						action: 'Get many delivery notes',
+					},
+					{
+						name: 'Download',
+						value: 'download',
+						description: 'Download a delivery note',
+						action: 'Download delivery note',
+					},
+				],
+				default: 'getAll',
+			},
+
 			// Timetracking Operations
 			{
 				displayName: 'Operation',
@@ -944,6 +1087,18 @@ export class Axonaut implements INodeType {
 						value: 'getAll',
 						description: 'Get all timetrackings',
 						action: 'Get many timetrackings',
+					},
+					{
+						name: 'Get Task Timetrackings',
+						value: 'getTaskTimetrackings',
+						description: 'Get timetrackings on a specific task',
+						action: 'Get task timetrackings',
+					},
+					{
+						name: 'Get Ticket Timetrackings',
+						value: 'getTicketTimetrackings',
+						description: 'Get timetrackings on a specific ticket',
+						action: 'Get ticket timetrackings',
 					},
 					{
 						name: 'Delete',
@@ -2703,6 +2858,12 @@ export class Axonaut implements INodeType {
 
 				// Quotation operations
 				if (resource === 'quotation') {
+					if (operation === 'create') {
+						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const body: any = {};
+						Object.assign(body, additionalFields);
+						responseData = await axonautApiRequest.call(this, 'POST', '/quotations', body);
+					}
 					if (operation === 'get') {
 						const quotationLocator = this.getNodeParameter('quotationId', i) as any;
 						const quotationId = quotationLocator.value;
@@ -2711,6 +2872,24 @@ export class Axonaut implements INodeType {
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						responseData = await axonautApiRequest.call(this, 'GET', '/quotations');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+					if (operation === 'getCompanyQuotations') {
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}/quotations`);
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
 					}
 				}
 
@@ -2830,6 +3009,23 @@ export class Axonaut implements INodeType {
 						const body: any = {};
 						Object.assign(body, additionalFields);
 						responseData = await axonautApiRequest.call(this, 'PATCH', `/events/${eventId}`, body);
+					}
+					if (operation === 'getCompanyEvents') {
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}/events`);
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+					if (operation === 'send') {
+						const eventLocator = this.getNodeParameter('eventId', i) as any;
+						const eventId = eventLocator.value;
+						responseData = await axonautApiRequest.call(this, 'POST', `/events/${eventId}/send`);
 					}
 					if (operation === 'delete') {
 						const eventLocator = this.getNodeParameter('eventId', i) as any;
@@ -3182,10 +3378,116 @@ export class Axonaut implements INodeType {
 							responseData = responseData.slice(0, limit);
 						}
 					}
+					if (operation === 'getTaskTimetrackings') {
+						const taskLocator = this.getNodeParameter('taskId', i) as any;
+						const taskId = taskLocator.value;
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', `/tasks/${taskId}/timetrackings`);
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+					if (operation === 'getTicketTimetrackings') {
+						const ticketLocator = this.getNodeParameter('ticketId', i) as any;
+						const ticketId = ticketLocator.value;
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', `/tickets/${ticketId}/timetrackings`);
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
 					if (operation === 'delete') {
 						const timetrackingLocator = this.getNodeParameter('timetrackingId', i) as any;
 						const timetrackingId = timetrackingLocator.value;
 						responseData = await axonautApiRequest.call(this, 'DELETE', `/timetrackings/${timetrackingId}`);
+					}
+				}
+
+				// Supplier Delivery operations
+				if (resource === 'supplier-delivery') {
+					if (operation === 'get') {
+						const supplierDeliveryLocator = this.getNodeParameter('supplierDeliveryId', i) as any;
+						const supplierDeliveryId = supplierDeliveryLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/supplier-deliveries/${supplierDeliveryId}`);
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/supplier-deliveries');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+					if (operation === 'createReceipt') {
+						const supplierDeliveryLocator = this.getNodeParameter('supplierDeliveryId', i) as any;
+						const supplierDeliveryId = supplierDeliveryLocator.value;
+						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const body: any = {};
+						Object.assign(body, additionalFields);
+						responseData = await axonautApiRequest.call(this, 'POST', `/supplier-deliveries/${supplierDeliveryId}/receipt`, body);
+					}
+					if (operation === 'deleteReceipt') {
+						const supplierDeliveryLocator = this.getNodeParameter('supplierDeliveryId', i) as any;
+						const supplierDeliveryId = supplierDeliveryLocator.value;
+						const receiptId = this.getNodeParameter('receiptId', i) as string;
+						responseData = await axonautApiRequest.call(this, 'DELETE', `/supplier-deliveries/${supplierDeliveryId}/receipt/${receiptId}`);
+					}
+				}
+
+				// Diverse Operations operations
+				if (resource === 'diverse-operations') {
+					if (operation === 'get') {
+						const diverseOperationLocator = this.getNodeParameter('diverseOperationId', i) as any;
+						const diverseOperationId = diverseOperationLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/diverse-operations/${diverseOperationId}`);
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/diverse-operations');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Delivery Forms operations
+				if (resource === 'delivery-forms') {
+					if (operation === 'create') {
+						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const body: any = {};
+						Object.assign(body, additionalFields);
+						responseData = await axonautApiRequest.call(this, 'POST', '/delivery-forms', body);
+					}
+					if (operation === 'get') {
+						const deliveryFormLocator = this.getNodeParameter('deliveryFormId', i) as any;
+						const deliveryFormId = deliveryFormLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/delivery-forms/${deliveryFormId}`);
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/delivery-forms');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+					if (operation === 'download') {
+						const deliveryFormLocator = this.getNodeParameter('deliveryFormId', i) as any;
+						const deliveryFormId = deliveryFormLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/delivery-forms/${deliveryFormId}/download`);
 					}
 				}
 
