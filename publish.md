@@ -102,3 +102,4 @@ jobs:
 - **Publishing errors**: Verify npm login and package name availability
 - **Installation issues**: Ensure package.json n8n configuration is correct
 
+

@@ -1704,6 +1704,593 @@ export class Axonaut implements INodeType {
 				description: 'The company this entity belongs to',
 			},
 
+			// ===========================================
+			// COMPANY SPECIFIC FIELDS
+			// ===========================================
+			{
+				displayName: 'Name',
+				name: 'name',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create'],
+					},
+				},
+				description: 'Company name (required)',
+			},
+			{
+				displayName: 'Email',
+				name: 'email',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Company email address',
+			},
+			{
+				displayName: 'Phone',
+				name: 'phone',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Company phone number',
+			},
+			{
+				displayName: 'Website',
+				name: 'website',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Company website URL',
+			},
+			{
+				displayName: 'Third Party Code',
+				name: 'thirdparty_code',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'External reference code for the company',
+			},
+			{
+				displayName: 'Address',
+				name: 'address',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Company address',
+			},
+			{
+				displayName: 'City',
+				name: 'city',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Company city',
+			},
+			{
+				displayName: 'Postal Code',
+				name: 'postal_code',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Company postal code',
+			},
+			{
+				displayName: 'Country',
+				name: 'country',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['company'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Company country',
+			},
+
+			// ===========================================
+			// EMPLOYEE SPECIFIC FIELDS
+			// ===========================================
+			{
+				displayName: 'First Name',
+				name: 'firstname',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['employee'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Employee first name',
+			},
+			{
+				displayName: 'Last Name',
+				name: 'lastname',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['employee'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Employee last name',
+			},
+			{
+				displayName: 'Email',
+				name: 'email',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['employee'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Employee email address',
+			},
+			{
+				displayName: 'Phone',
+				name: 'phone',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['employee'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Employee phone number',
+			},
+			{
+				displayName: 'Position',
+				name: 'position',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['employee'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Employee position/job title',
+			},
+			{
+				displayName: 'Department',
+				name: 'department',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['employee'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Employee department',
+			},
+
+			// ===========================================
+			// PRODUCT SPECIFIC FIELDS
+			// ===========================================
+			{
+				displayName: 'Name',
+				name: 'name',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['product'],
+						operation: ['create'],
+					},
+				},
+				description: 'Product name (required)',
+			},
+			{
+				displayName: 'Reference',
+				name: 'reference',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['product'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Product reference code',
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['product'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Product description',
+			},
+			{
+				displayName: 'Price',
+				name: 'price',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: ['product'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Product price',
+			},
+			{
+				displayName: 'Unit',
+				name: 'unit',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['product'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Product unit (e.g., pieces, hours, kg)',
+			},
+
+			// ===========================================
+			// PROJECT SPECIFIC FIELDS
+			// ===========================================
+			{
+				displayName: 'Title',
+				name: 'title',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['project'],
+						operation: ['create'],
+					},
+				},
+				description: 'Project title (required)',
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['project'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Project description',
+			},
+			{
+				displayName: 'Start Date',
+				name: 'start_date',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['project'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Project start date',
+			},
+			{
+				displayName: 'End Date',
+				name: 'end_date',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['project'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Project end date',
+			},
+			{
+				displayName: 'Budget',
+				name: 'budget',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: ['project'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Project budget',
+			},
+
+			// ===========================================
+			// OPPORTUNITY SPECIFIC FIELDS
+			// ===========================================
+			{
+				displayName: 'Name',
+				name: 'name',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['opportunity'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Opportunity name',
+			},
+			{
+				displayName: 'Amount',
+				name: 'amount',
+				type: 'number',
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: ['opportunity'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Opportunity amount',
+			},
+			{
+				displayName: 'Probability',
+				name: 'probability',
+				type: 'number',
+				default: 50,
+				typeOptions: {
+					minValue: 0,
+					maxValue: 100,
+				},
+				displayOptions: {
+					show: {
+						resource: ['opportunity'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Opportunity probability (%)',
+			},
+			{
+				displayName: 'Close Date',
+				name: 'close_date',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['opportunity'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Expected close date',
+			},
+			{
+				displayName: 'Stage',
+				name: 'stage',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['opportunity'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Opportunity stage',
+			},
+
+			// ===========================================
+			// TASK SPECIFIC FIELDS
+			// ===========================================
+			{
+				displayName: 'Title',
+				name: 'title',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['task'],
+						operation: ['create'],
+					},
+				},
+				description: 'Task title (required)',
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['task'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Task description',
+			},
+			{
+				displayName: 'Priority',
+				name: 'priority',
+				type: 'options',
+				options: [
+					{ name: 'Low', value: 'low' },
+					{ name: 'Medium', value: 'medium' },
+					{ name: 'High', value: 'high' },
+					{ name: 'Urgent', value: 'urgent' },
+				],
+				default: 'medium',
+				displayOptions: {
+					show: {
+						resource: ['task'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Task priority level',
+			},
+			{
+				displayName: 'Due Date',
+				name: 'due_date',
+				type: 'dateTime',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['task'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Task due date',
+			},
+			{
+				displayName: 'Status',
+				name: 'status',
+				type: 'options',
+				options: [
+					{ name: 'Not Started', value: 'not_started' },
+					{ name: 'In Progress', value: 'in_progress' },
+					{ name: 'Completed', value: 'completed' },
+					{ name: 'Cancelled', value: 'cancelled' },
+				],
+				default: 'not_started',
+				displayOptions: {
+					show: {
+						resource: ['task'],
+						operation: ['create', 'update', 'upsert'],
+					},
+				},
+				description: 'Task status',
+			},
+
+			// ===========================================
+			// TICKET SPECIFIC FIELDS
+			// ===========================================
+			{
+				displayName: 'Title',
+				name: 'title',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['ticket'],
+						operation: ['create'],
+					},
+				},
+				description: 'Ticket title (required)',
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['ticket'],
+						operation: ['create', 'update'],
+					},
+				},
+				description: 'Ticket description',
+			},
+			{
+				displayName: 'Type',
+				name: 'type',
+				type: 'options',
+				options: [
+					{ name: 'Bug', value: 'bug' },
+					{ name: 'Feature Request', value: 'feature' },
+					{ name: 'Support', value: 'support' },
+					{ name: 'Question', value: 'question' },
+				],
+				default: 'support',
+				displayOptions: {
+					show: {
+						resource: ['ticket'],
+						operation: ['create', 'update'],
+					},
+				},
+				description: 'Ticket type',
+			},
+			{
+				displayName: 'Priority',
+				name: 'priority',
+				type: 'options',
+				options: [
+					{ name: 'Low', value: 'low' },
+					{ name: 'Medium', value: 'medium' },
+					{ name: 'High', value: 'high' },
+					{ name: 'Critical', value: 'critical' },
+				],
+				default: 'medium',
+				displayOptions: {
+					show: {
+						resource: ['ticket'],
+						operation: ['create', 'update'],
+					},
+				},
+				description: 'Ticket priority',
+			},
+			{
+				displayName: 'Status',
+				name: 'status',
+				type: 'options',
+				options: [
+					{ name: 'Open', value: 'open' },
+					{ name: 'In Progress', value: 'in_progress' },
+					{ name: 'Resolved', value: 'resolved' },
+					{ name: 'Closed', value: 'closed' },
+				],
+				default: 'open',
+				displayOptions: {
+					show: {
+						resource: ['ticket'],
+						operation: ['create', 'update'],
+					},
+				},
+				description: 'Ticket status',
+			},
+
 			// Additional fields collection for all operations
 			{
 				displayName: 'Additional Fields',
@@ -1967,9 +2554,21 @@ export class Axonaut implements INodeType {
 				if (resource === 'company') {
 					if (operation === 'create') {
 						const name = this.getNodeParameter('name', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
 						const body: any = { name };
+						
+						// Add all specific fields
+						const optionalFields = ['email', 'phone', 'website', 'thirdparty_code', 'address', 'city', 'postal_code', 'country'];
+						for (const field of optionalFields) {
+							const value = this.getNodeParameter(field, i, '') as string;
+							if (value) {
+								body[field] = value;
+							}
+						}
+						
+						// Add any additional fields from the collection
+						const additionalFields = this.getNodeParameter('additionalFields', i);
 						Object.assign(body, additionalFields);
+						
 						responseData = await axonautApiRequest.call(this, 'POST', '/companies', body);
 					}
 					if (operation === 'get') {
@@ -1990,9 +2589,21 @@ export class Axonaut implements INodeType {
 					if (operation === 'update') {
 						const companyLocator = this.getNodeParameter('companyId', i) as any;
 						const companyId = companyLocator.value;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
 						const body: any = {};
+						
+						// Add all specific fields
+						const optionalFields = ['email', 'phone', 'website', 'thirdparty_code', 'address', 'city', 'postal_code', 'country'];
+						for (const field of optionalFields) {
+							const value = this.getNodeParameter(field, i, '') as string;
+							if (value) {
+								body[field] = value;
+							}
+						}
+						
+						// Add any additional fields from the collection
+						const additionalFields = this.getNodeParameter('additionalFields', i);
 						Object.assign(body, additionalFields);
+						
 						responseData = await axonautApiRequest.call(this, 'PATCH', `/companies/${companyId}`, body);
 					}
 					if (operation === 'delete') {
@@ -2028,11 +2639,23 @@ export class Axonaut implements INodeType {
 				// Employee operations
 				if (resource === 'employee') {
 					if (operation === 'create') {
-						const additionalFields = this.getNodeParameter('additionalFields', i);
 						const companyLocator = this.getNodeParameter('companyId', i) as any;
 						const companyId = companyLocator.value;
 						const body: any = { company_id: companyId };
+						
+						// Add all specific fields
+						const optionalFields = ['firstname', 'lastname', 'email', 'phone', 'position', 'department'];
+						for (const field of optionalFields) {
+							const value = this.getNodeParameter(field, i, '') as string;
+							if (value) {
+								body[field] = value;
+							}
+						}
+						
+						// Add any additional fields from the collection
+						const additionalFields = this.getNodeParameter('additionalFields', i);
 						Object.assign(body, additionalFields);
+						
 						responseData = await axonautApiRequest.call(this, 'POST', '/employees', body);
 					}
 					if (operation === 'get') {
@@ -2174,9 +2797,21 @@ export class Axonaut implements INodeType {
 				if (resource === 'product') {
 					if (operation === 'create') {
 						const name = this.getNodeParameter('name', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
 						const body: any = { name };
+						
+						// Add all specific fields
+						const optionalFields = ['reference', 'description', 'price', 'unit'];
+						for (const field of optionalFields) {
+							const value = this.getNodeParameter(field, i, field === 'price' ? 0 : '') as string | number;
+							if (value !== '' && value !== 0) {
+								body[field] = value;
+							}
+						}
+						
+						// Add any additional fields from the collection
+						const additionalFields = this.getNodeParameter('additionalFields', i);
 						Object.assign(body, additionalFields);
+						
 						responseData = await axonautApiRequest.call(this, 'POST', '/products', body);
 					}
 					if (operation === 'get') {
@@ -2247,13 +2882,24 @@ export class Axonaut implements INodeType {
 				// Project operations
 				if (resource === 'project') {
 					if (operation === 'create') {
-						const name = this.getNodeParameter('name', i) as string;
-						const number = this.getNodeParameter('number', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const title = this.getNodeParameter('title', i) as string;
 						const companyLocator = this.getNodeParameter('companyId', i) as any;
 						const companyId = companyLocator.value;
-						const body: any = { name, number, company_id: companyId };
+						const body: any = { title, company_id: companyId };
+						
+						// Add all specific fields
+						const optionalFields = ['description', 'start_date', 'end_date', 'budget'];
+						for (const field of optionalFields) {
+							const value = this.getNodeParameter(field, i, field === 'budget' ? 0 : '') as string | number;
+							if (value !== '' && value !== 0) {
+								body[field] = value;
+							}
+						}
+						
+						// Add any additional fields from the collection
+						const additionalFields = this.getNodeParameter('additionalFields', i);
 						Object.assign(body, additionalFields);
+						
 						responseData = await axonautApiRequest.call(this, 'POST', '/projects', body);
 					}
 					if (operation === 'get') {
@@ -2608,11 +3254,23 @@ export class Axonaut implements INodeType {
 				if (resource === 'task') {
 					if (operation === 'create') {
 						const title = this.getNodeParameter('title', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
 						const companyLocator = this.getNodeParameter('companyId', i) as any;
 						const companyId = companyLocator.value;
 						const body: any = { title, company_id: companyId };
+						
+						// Add all specific fields
+						const optionalFields = ['description', 'priority', 'due_date', 'status'];
+						for (const field of optionalFields) {
+							const value = this.getNodeParameter(field, i, '') as string;
+							if (value) {
+								body[field] = value;
+							}
+						}
+						
+						// Add any additional fields from the collection
+						const additionalFields = this.getNodeParameter('additionalFields', i);
 						Object.assign(body, additionalFields);
+						
 						responseData = await axonautApiRequest.call(this, 'POST', '/tasks', body);
 					}
 					if (operation === 'get') {
@@ -2641,9 +3299,21 @@ export class Axonaut implements INodeType {
 				if (resource === 'ticket') {
 					if (operation === 'create') {
 						const title = this.getNodeParameter('title', i) as string;
-						const additionalFields = this.getNodeParameter('additionalFields', i);
 						const body: any = { title };
+						
+						// Add all specific fields
+						const optionalFields = ['description', 'type', 'priority', 'status'];
+						for (const field of optionalFields) {
+							const value = this.getNodeParameter(field, i, '') as string;
+							if (value) {
+								body[field] = value;
+							}
+						}
+						
+						// Add any additional fields from the collection
+						const additionalFields = this.getNodeParameter('additionalFields', i);
 						Object.assign(body, additionalFields);
+						
 						responseData = await axonautApiRequest.call(this, 'POST', '/tickets', body);
 					}
 					if (operation === 'get') {
