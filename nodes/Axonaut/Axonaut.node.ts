@@ -1705,7 +1705,7 @@ export class Axonaut implements INodeType {
 			},
 
 			// ===========================================
-			// COMPANY SPECIFIC FIELDS
+			// COMPANY REQUIRED FIELDS
 			// ===========================================
 			{
 				displayName: 'Name',
@@ -1721,195 +1721,145 @@ export class Axonaut implements INodeType {
 				},
 				description: 'Company name (required)',
 			},
+
+			// ===========================================
+			// COMPANY FIELDS COLLECTION
+			// ===========================================
 			{
-				displayName: 'Email',
-				name: 'email',
-				type: 'string',
-				default: '',
+				displayName: 'Add Fields',
+				name: 'companyFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
 				displayOptions: {
 					show: {
 						resource: ['company'],
 						operation: ['create', 'update', 'upsert'],
 					},
 				},
-				description: 'Company email address',
-			},
-			{
-				displayName: 'Phone',
-				name: 'phone',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['company'],
-						operation: ['create', 'update', 'upsert'],
+				options: [
+					{
+						displayName: 'Email',
+						name: 'email',
+						type: 'string',
+						default: '',
+						description: 'Company email address',
 					},
-				},
-				description: 'Company phone number',
-			},
-			{
-				displayName: 'Website',
-				name: 'website',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['company'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Phone',
+						name: 'phone',
+						type: 'string',
+						default: '',
+						description: 'Company phone number',
 					},
-				},
-				description: 'Company website URL',
-			},
-			{
-				displayName: 'Third Party Code',
-				name: 'thirdparty_code',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['company'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Website',
+						name: 'website',
+						type: 'string',
+						default: '',
+						description: 'Company website URL',
 					},
-				},
-				description: 'External reference code for the company',
-			},
-			{
-				displayName: 'Address',
-				name: 'address',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['company'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Third Party Code',
+						name: 'thirdparty_code',
+						type: 'string',
+						default: '',
+						description: 'External reference code for the company',
 					},
-				},
-				description: 'Company address',
-			},
-			{
-				displayName: 'City',
-				name: 'city',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['company'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Address',
+						name: 'address',
+						type: 'string',
+						default: '',
+						description: 'Company address',
 					},
-				},
-				description: 'Company city',
-			},
-			{
-				displayName: 'Postal Code',
-				name: 'postal_code',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['company'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'City',
+						name: 'city',
+						type: 'string',
+						default: '',
+						description: 'Company city',
 					},
-				},
-				description: 'Company postal code',
-			},
-			{
-				displayName: 'Country',
-				name: 'country',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['company'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Postal Code',
+						name: 'postal_code',
+						type: 'string',
+						default: '',
+						description: 'Company postal code',
 					},
-				},
-				description: 'Company country',
+					{
+						displayName: 'Country',
+						name: 'country',
+						type: 'string',
+						default: '',
+						description: 'Company country',
+					},
+				],
 			},
 
 			// ===========================================
-			// EMPLOYEE SPECIFIC FIELDS
+			// EMPLOYEE FIELDS COLLECTION
 			// ===========================================
 			{
-				displayName: 'First Name',
-				name: 'firstname',
-				type: 'string',
-				default: '',
+				displayName: 'Add Fields',
+				name: 'employeeFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
 				displayOptions: {
 					show: {
 						resource: ['employee'],
 						operation: ['create', 'update', 'upsert'],
 					},
 				},
-				description: 'Employee first name',
-			},
-			{
-				displayName: 'Last Name',
-				name: 'lastname',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['employee'],
-						operation: ['create', 'update', 'upsert'],
+				options: [
+					{
+						displayName: 'First Name',
+						name: 'firstname',
+						type: 'string',
+						default: '',
+						description: 'Employee first name',
 					},
-				},
-				description: 'Employee last name',
-			},
-			{
-				displayName: 'Email',
-				name: 'email',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['employee'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Last Name',
+						name: 'lastname',
+						type: 'string',
+						default: '',
+						description: 'Employee last name',
 					},
-				},
-				description: 'Employee email address',
-			},
-			{
-				displayName: 'Phone',
-				name: 'phone',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['employee'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Email',
+						name: 'email',
+						type: 'string',
+						default: '',
+						description: 'Employee email address',
 					},
-				},
-				description: 'Employee phone number',
-			},
-			{
-				displayName: 'Position',
-				name: 'position',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['employee'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Phone',
+						name: 'phone',
+						type: 'string',
+						default: '',
+						description: 'Employee phone number',
 					},
-				},
-				description: 'Employee position/job title',
-			},
-			{
-				displayName: 'Department',
-				name: 'department',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['employee'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Position',
+						name: 'position',
+						type: 'string',
+						default: '',
+						description: 'Employee position/job title',
 					},
-				},
-				description: 'Employee department',
+					{
+						displayName: 'Department',
+						name: 'department',
+						type: 'string',
+						default: '',
+						description: 'Employee department',
+					},
+				],
 			},
 
 			// ===========================================
-			// PRODUCT SPECIFIC FIELDS
+			// PRODUCT REQUIRED FIELDS
 			// ===========================================
 			{
 				displayName: 'Name',
@@ -1925,61 +1875,56 @@ export class Axonaut implements INodeType {
 				},
 				description: 'Product name (required)',
 			},
+
+			// ===========================================
+			// PRODUCT FIELDS COLLECTION
+			// ===========================================
 			{
-				displayName: 'Reference',
-				name: 'reference',
-				type: 'string',
-				default: '',
+				displayName: 'Add Fields',
+				name: 'productFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
 				displayOptions: {
 					show: {
 						resource: ['product'],
 						operation: ['create', 'update', 'upsert'],
 					},
 				},
-				description: 'Product reference code',
-			},
-			{
-				displayName: 'Description',
-				name: 'description',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['product'],
-						operation: ['create', 'update', 'upsert'],
+				options: [
+					{
+						displayName: 'Reference',
+						name: 'reference',
+						type: 'string',
+						default: '',
+						description: 'Product reference code',
 					},
-				},
-				description: 'Product description',
-			},
-			{
-				displayName: 'Price',
-				name: 'price',
-				type: 'number',
-				default: 0,
-				displayOptions: {
-					show: {
-						resource: ['product'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Description',
+						name: 'description',
+						type: 'string',
+						default: '',
+						description: 'Product description',
 					},
-				},
-				description: 'Product price',
-			},
-			{
-				displayName: 'Unit',
-				name: 'unit',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['product'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Price',
+						name: 'price',
+						type: 'number',
+						default: 0,
+						description: 'Product price',
 					},
-				},
-				description: 'Product unit (e.g., pieces, hours, kg)',
+					{
+						displayName: 'Unit',
+						name: 'unit',
+						type: 'string',
+						default: '',
+						description: 'Product unit (e.g., pieces, hours, kg)',
+					},
+				],
 			},
 
 			// ===========================================
-			// PROJECT SPECIFIC FIELDS
+			// PROJECT REQUIRED FIELDS
 			// ===========================================
 			{
 				displayName: 'Title',
@@ -1995,134 +1940,114 @@ export class Axonaut implements INodeType {
 				},
 				description: 'Project title (required)',
 			},
+
+			// ===========================================
+			// PROJECT FIELDS COLLECTION
+			// ===========================================
 			{
-				displayName: 'Description',
-				name: 'description',
-				type: 'string',
-				default: '',
+				displayName: 'Add Fields',
+				name: 'projectFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
 				displayOptions: {
 					show: {
 						resource: ['project'],
 						operation: ['create', 'update', 'upsert'],
 					},
 				},
-				description: 'Project description',
-			},
-			{
-				displayName: 'Start Date',
-				name: 'start_date',
-				type: 'dateTime',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['project'],
-						operation: ['create', 'update', 'upsert'],
+				options: [
+					{
+						displayName: 'Description',
+						name: 'description',
+						type: 'string',
+						default: '',
+						description: 'Project description',
 					},
-				},
-				description: 'Project start date',
-			},
-			{
-				displayName: 'End Date',
-				name: 'end_date',
-				type: 'dateTime',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['project'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Start Date',
+						name: 'start_date',
+						type: 'dateTime',
+						default: '',
+						description: 'Project start date',
 					},
-				},
-				description: 'Project end date',
-			},
-			{
-				displayName: 'Budget',
-				name: 'budget',
-				type: 'number',
-				default: 0,
-				displayOptions: {
-					show: {
-						resource: ['project'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'End Date',
+						name: 'end_date',
+						type: 'dateTime',
+						default: '',
+						description: 'Project end date',
 					},
-				},
-				description: 'Project budget',
+					{
+						displayName: 'Budget',
+						name: 'budget',
+						type: 'number',
+						default: 0,
+						description: 'Project budget',
+					},
+				],
 			},
 
 			// ===========================================
-			// OPPORTUNITY SPECIFIC FIELDS
+			// OPPORTUNITY FIELDS COLLECTION
 			// ===========================================
 			{
-				displayName: 'Name',
-				name: 'name',
-				type: 'string',
-				default: '',
+				displayName: 'Add Fields',
+				name: 'opportunityFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
 				displayOptions: {
 					show: {
 						resource: ['opportunity'],
 						operation: ['create', 'update', 'upsert'],
 					},
 				},
-				description: 'Opportunity name',
-			},
-			{
-				displayName: 'Amount',
-				name: 'amount',
-				type: 'number',
-				default: 0,
-				displayOptions: {
-					show: {
-						resource: ['opportunity'],
-						operation: ['create', 'update', 'upsert'],
+				options: [
+					{
+						displayName: 'Name',
+						name: 'name',
+						type: 'string',
+						default: '',
+						description: 'Opportunity name',
 					},
-				},
-				description: 'Opportunity amount',
-			},
-			{
-				displayName: 'Probability',
-				name: 'probability',
-				type: 'number',
-				default: 50,
-				typeOptions: {
-					minValue: 0,
-					maxValue: 100,
-				},
-				displayOptions: {
-					show: {
-						resource: ['opportunity'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Amount',
+						name: 'amount',
+						type: 'number',
+						default: 0,
+						description: 'Opportunity amount',
 					},
-				},
-				description: 'Opportunity probability (%)',
-			},
-			{
-				displayName: 'Close Date',
-				name: 'close_date',
-				type: 'dateTime',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['opportunity'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Probability',
+						name: 'probability',
+						type: 'number',
+						default: 50,
+						typeOptions: {
+							minValue: 0,
+							maxValue: 100,
+						},
+						description: 'Opportunity probability (%)',
 					},
-				},
-				description: 'Expected close date',
-			},
-			{
-				displayName: 'Stage',
-				name: 'stage',
-				type: 'string',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['opportunity'],
-						operation: ['create', 'update', 'upsert'],
+					{
+						displayName: 'Close Date',
+						name: 'close_date',
+						type: 'dateTime',
+						default: '',
+						description: 'Expected close date',
 					},
-				},
-				description: 'Opportunity stage',
+					{
+						displayName: 'Stage',
+						name: 'stage',
+						type: 'string',
+						default: '',
+						description: 'Opportunity stage',
+					},
+				],
 			},
 
 			// ===========================================
-			// TASK SPECIFIC FIELDS
+			// TASK REQUIRED FIELDS
 			// ===========================================
 			{
 				displayName: 'Title',
@@ -2138,73 +2063,68 @@ export class Axonaut implements INodeType {
 				},
 				description: 'Task title (required)',
 			},
+
+			// ===========================================
+			// TASK FIELDS COLLECTION
+			// ===========================================
 			{
-				displayName: 'Description',
-				name: 'description',
-				type: 'string',
-				default: '',
+				displayName: 'Add Fields',
+				name: 'taskFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
 				displayOptions: {
 					show: {
 						resource: ['task'],
 						operation: ['create', 'update', 'upsert'],
 					},
 				},
-				description: 'Task description',
-			},
-			{
-				displayName: 'Priority',
-				name: 'priority',
-				type: 'options',
 				options: [
-					{ name: 'Low', value: 'low' },
-					{ name: 'Medium', value: 'medium' },
-					{ name: 'High', value: 'high' },
-					{ name: 'Urgent', value: 'urgent' },
+					{
+						displayName: 'Description',
+						name: 'description',
+						type: 'string',
+						default: '',
+						description: 'Task description',
+					},
+					{
+						displayName: 'Priority',
+						name: 'priority',
+						type: 'options',
+						options: [
+							{ name: 'Low', value: 'low' },
+							{ name: 'Medium', value: 'medium' },
+							{ name: 'High', value: 'high' },
+							{ name: 'Urgent', value: 'urgent' },
+						],
+						default: 'medium',
+						description: 'Task priority level',
+					},
+					{
+						displayName: 'Due Date',
+						name: 'due_date',
+						type: 'dateTime',
+						default: '',
+						description: 'Task due date',
+					},
+					{
+						displayName: 'Status',
+						name: 'status',
+						type: 'options',
+						options: [
+							{ name: 'Not Started', value: 'not_started' },
+							{ name: 'In Progress', value: 'in_progress' },
+							{ name: 'Completed', value: 'completed' },
+							{ name: 'Cancelled', value: 'cancelled' },
+						],
+						default: 'not_started',
+						description: 'Task status',
+					},
 				],
-				default: 'medium',
-				displayOptions: {
-					show: {
-						resource: ['task'],
-						operation: ['create', 'update', 'upsert'],
-					},
-				},
-				description: 'Task priority level',
-			},
-			{
-				displayName: 'Due Date',
-				name: 'due_date',
-				type: 'dateTime',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['task'],
-						operation: ['create', 'update', 'upsert'],
-					},
-				},
-				description: 'Task due date',
-			},
-			{
-				displayName: 'Status',
-				name: 'status',
-				type: 'options',
-				options: [
-					{ name: 'Not Started', value: 'not_started' },
-					{ name: 'In Progress', value: 'in_progress' },
-					{ name: 'Completed', value: 'completed' },
-					{ name: 'Cancelled', value: 'cancelled' },
-				],
-				default: 'not_started',
-				displayOptions: {
-					show: {
-						resource: ['task'],
-						operation: ['create', 'update', 'upsert'],
-					},
-				},
-				description: 'Task status',
 			},
 
 			// ===========================================
-			// TICKET SPECIFIC FIELDS
+			// TICKET REQUIRED FIELDS
 			// ===========================================
 			{
 				displayName: 'Title',
@@ -2220,75 +2140,70 @@ export class Axonaut implements INodeType {
 				},
 				description: 'Ticket title (required)',
 			},
+
+			// ===========================================
+			// TICKET FIELDS COLLECTION
+			// ===========================================
 			{
-				displayName: 'Description',
-				name: 'description',
-				type: 'string',
-				default: '',
+				displayName: 'Add Fields',
+				name: 'ticketFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
 				displayOptions: {
 					show: {
 						resource: ['ticket'],
 						operation: ['create', 'update'],
 					},
 				},
-				description: 'Ticket description',
-			},
-			{
-				displayName: 'Type',
-				name: 'type',
-				type: 'options',
 				options: [
-					{ name: 'Bug', value: 'bug' },
-					{ name: 'Feature Request', value: 'feature' },
-					{ name: 'Support', value: 'support' },
-					{ name: 'Question', value: 'question' },
-				],
-				default: 'support',
-				displayOptions: {
-					show: {
-						resource: ['ticket'],
-						operation: ['create', 'update'],
+					{
+						displayName: 'Description',
+						name: 'description',
+						type: 'string',
+						default: '',
+						description: 'Ticket description',
 					},
-				},
-				description: 'Ticket type',
-			},
-			{
-				displayName: 'Priority',
-				name: 'priority',
-				type: 'options',
-				options: [
-					{ name: 'Low', value: 'low' },
-					{ name: 'Medium', value: 'medium' },
-					{ name: 'High', value: 'high' },
-					{ name: 'Critical', value: 'critical' },
-				],
-				default: 'medium',
-				displayOptions: {
-					show: {
-						resource: ['ticket'],
-						operation: ['create', 'update'],
+					{
+						displayName: 'Type',
+						name: 'type',
+						type: 'options',
+						options: [
+							{ name: 'Bug', value: 'bug' },
+							{ name: 'Feature Request', value: 'feature' },
+							{ name: 'Support', value: 'support' },
+							{ name: 'Question', value: 'question' },
+						],
+						default: 'support',
+						description: 'Ticket type',
 					},
-				},
-				description: 'Ticket priority',
-			},
-			{
-				displayName: 'Status',
-				name: 'status',
-				type: 'options',
-				options: [
-					{ name: 'Open', value: 'open' },
-					{ name: 'In Progress', value: 'in_progress' },
-					{ name: 'Resolved', value: 'resolved' },
-					{ name: 'Closed', value: 'closed' },
-				],
-				default: 'open',
-				displayOptions: {
-					show: {
-						resource: ['ticket'],
-						operation: ['create', 'update'],
+					{
+						displayName: 'Priority',
+						name: 'priority',
+						type: 'options',
+						options: [
+							{ name: 'Low', value: 'low' },
+							{ name: 'Medium', value: 'medium' },
+							{ name: 'High', value: 'high' },
+							{ name: 'Critical', value: 'critical' },
+						],
+						default: 'medium',
+						description: 'Ticket priority',
 					},
-				},
-				description: 'Ticket status',
+					{
+						displayName: 'Status',
+						name: 'status',
+						type: 'options',
+						options: [
+							{ name: 'Open', value: 'open' },
+							{ name: 'In Progress', value: 'in_progress' },
+							{ name: 'Resolved', value: 'resolved' },
+							{ name: 'Closed', value: 'closed' },
+						],
+						default: 'open',
+						description: 'Ticket status',
+					},
+				],
 			},
 
 			// Additional fields collection for all operations
@@ -2556,17 +2471,12 @@ export class Axonaut implements INodeType {
 						const name = this.getNodeParameter('name', i) as string;
 						const body: any = { name };
 						
-						// Add all specific fields
-						const optionalFields = ['email', 'phone', 'website', 'thirdparty_code', 'address', 'city', 'postal_code', 'country'];
-						for (const field of optionalFields) {
-							const value = this.getNodeParameter(field, i, '') as string;
-							if (value) {
-								body[field] = value;
-							}
-						}
+						// Add fields from the new collection
+						const companyFields = this.getNodeParameter('companyFields', i, {}) as any;
+						Object.assign(body, companyFields);
 						
-						// Add any additional fields from the collection
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						// Add any additional fields from the fallback collection
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						Object.assign(body, additionalFields);
 						
 						responseData = await axonautApiRequest.call(this, 'POST', '/companies', body);
@@ -2591,17 +2501,12 @@ export class Axonaut implements INodeType {
 						const companyId = companyLocator.value;
 						const body: any = {};
 						
-						// Add all specific fields
-						const optionalFields = ['email', 'phone', 'website', 'thirdparty_code', 'address', 'city', 'postal_code', 'country'];
-						for (const field of optionalFields) {
-							const value = this.getNodeParameter(field, i, '') as string;
-							if (value) {
-								body[field] = value;
-							}
-						}
+						// Add fields from the new collection
+						const companyFields = this.getNodeParameter('companyFields', i, {}) as any;
+						Object.assign(body, companyFields);
 						
-						// Add any additional fields from the collection
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						// Add any additional fields from the fallback collection
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						Object.assign(body, additionalFields);
 						
 						responseData = await axonautApiRequest.call(this, 'PATCH', `/companies/${companyId}`, body);
@@ -2623,12 +2528,16 @@ export class Axonaut implements INodeType {
 						if (existingCompany) {
 							// Update existing company
 							const body: any = {};
+							const companyFields = this.getNodeParameter('companyFields', i, {}) as any;
+							Object.assign(body, companyFields);
 							Object.assign(body, additionalFields);
 							responseData = await axonautApiRequest.call(this, 'PATCH', `/companies/${existingCompany.id}`, body);
 							responseData._operation = 'updated';
 						} else {
 							// Create new company
 							const body: any = { [uniqueField]: uniqueValue };
+							const companyFields = this.getNodeParameter('companyFields', i, {}) as any;
+							Object.assign(body, companyFields);
 							Object.assign(body, additionalFields);
 							responseData = await axonautApiRequest.call(this, 'POST', '/companies', body);
 							responseData._operation = 'created';
@@ -2643,17 +2552,12 @@ export class Axonaut implements INodeType {
 						const companyId = companyLocator.value;
 						const body: any = { company_id: companyId };
 						
-						// Add all specific fields
-						const optionalFields = ['firstname', 'lastname', 'email', 'phone', 'position', 'department'];
-						for (const field of optionalFields) {
-							const value = this.getNodeParameter(field, i, '') as string;
-							if (value) {
-								body[field] = value;
-							}
-						}
+						// Add fields from the new collection
+						const employeeFields = this.getNodeParameter('employeeFields', i, {}) as any;
+						Object.assign(body, employeeFields);
 						
-						// Add any additional fields from the collection
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						// Add any additional fields from the fallback collection
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						Object.assign(body, additionalFields);
 						
 						responseData = await axonautApiRequest.call(this, 'POST', '/employees', body);
@@ -2799,17 +2703,12 @@ export class Axonaut implements INodeType {
 						const name = this.getNodeParameter('name', i) as string;
 						const body: any = { name };
 						
-						// Add all specific fields
-						const optionalFields = ['reference', 'description', 'price', 'unit'];
-						for (const field of optionalFields) {
-							const value = this.getNodeParameter(field, i, field === 'price' ? 0 : '') as string | number;
-							if (value !== '' && value !== 0) {
-								body[field] = value;
-							}
-						}
+						// Add fields from the new collection
+						const productFields = this.getNodeParameter('productFields', i, {}) as any;
+						Object.assign(body, productFields);
 						
-						// Add any additional fields from the collection
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						// Add any additional fields from the fallback collection
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						Object.assign(body, additionalFields);
 						
 						responseData = await axonautApiRequest.call(this, 'POST', '/products', body);
@@ -2887,17 +2786,12 @@ export class Axonaut implements INodeType {
 						const companyId = companyLocator.value;
 						const body: any = { title, company_id: companyId };
 						
-						// Add all specific fields
-						const optionalFields = ['description', 'start_date', 'end_date', 'budget'];
-						for (const field of optionalFields) {
-							const value = this.getNodeParameter(field, i, field === 'budget' ? 0 : '') as string | number;
-							if (value !== '' && value !== 0) {
-								body[field] = value;
-							}
-						}
+						// Add fields from the new collection
+						const projectFields = this.getNodeParameter('projectFields', i, {}) as any;
+						Object.assign(body, projectFields);
 						
-						// Add any additional fields from the collection
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						// Add any additional fields from the fallback collection
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						Object.assign(body, additionalFields);
 						
 						responseData = await axonautApiRequest.call(this, 'POST', '/projects', body);
@@ -3258,17 +3152,12 @@ export class Axonaut implements INodeType {
 						const companyId = companyLocator.value;
 						const body: any = { title, company_id: companyId };
 						
-						// Add all specific fields
-						const optionalFields = ['description', 'priority', 'due_date', 'status'];
-						for (const field of optionalFields) {
-							const value = this.getNodeParameter(field, i, '') as string;
-							if (value) {
-								body[field] = value;
-							}
-						}
+						// Add fields from the new collection
+						const taskFields = this.getNodeParameter('taskFields', i, {}) as any;
+						Object.assign(body, taskFields);
 						
-						// Add any additional fields from the collection
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						// Add any additional fields from the fallback collection
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						Object.assign(body, additionalFields);
 						
 						responseData = await axonautApiRequest.call(this, 'POST', '/tasks', body);
@@ -3301,17 +3190,12 @@ export class Axonaut implements INodeType {
 						const title = this.getNodeParameter('title', i) as string;
 						const body: any = { title };
 						
-						// Add all specific fields
-						const optionalFields = ['description', 'type', 'priority', 'status'];
-						for (const field of optionalFields) {
-							const value = this.getNodeParameter(field, i, '') as string;
-							if (value) {
-								body[field] = value;
-							}
-						}
+						// Add fields from the new collection
+						const ticketFields = this.getNodeParameter('ticketFields', i, {}) as any;
+						Object.assign(body, ticketFields);
 						
-						// Add any additional fields from the collection
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						// Add any additional fields from the fallback collection
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						Object.assign(body, additionalFields);
 						
 						responseData = await axonautApiRequest.call(this, 'POST', '/tickets', body);
