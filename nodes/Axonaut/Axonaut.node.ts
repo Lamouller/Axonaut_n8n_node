@@ -3402,6 +3402,30 @@ export class Axonaut implements INodeType {
 							responseData = responseData.slice(0, limit);
 						}
 					}
+					if (operation === 'getTaskTimetrackings') {
+						const taskLocator = this.getNodeParameter('taskId', i) as any;
+						const taskId = taskLocator.value;
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', `/tasks/${taskId}/timetrackings`);
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+					if (operation === 'getTicketTimetrackings') {
+						const ticketLocator = this.getNodeParameter('ticketId', i) as any;
+						const ticketId = ticketLocator.value;
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', `/tickets/${ticketId}/timetrackings`);
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
 					if (operation === 'delete') {
 						const timetrackingLocator = this.getNodeParameter('timetrackingId', i) as any;
 						const timetrackingId = timetrackingLocator.value;
