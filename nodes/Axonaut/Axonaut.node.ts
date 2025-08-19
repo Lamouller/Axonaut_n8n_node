@@ -1,4 +1,5 @@
 import {
+	IDataObject,
 	IExecuteFunctions,
 	ILoadOptionsFunctions,
 	INodeExecutionData,
@@ -186,6 +187,54 @@ export class Axonaut implements INodeType {
 						name: 'Timetracking',
 						value: 'timetracking',
 					},
+					{
+						name: 'Themes',
+						value: 'theme',
+					},
+					{
+						name: 'Bank Accounts',
+						value: 'bank-account',
+					},
+					{
+						name: 'Company Categories',
+						value: 'company-category',
+					},
+					{
+						name: 'Task Natures',
+						value: 'task-nature',
+					},
+					{
+						name: 'Project Natures',
+						value: 'project-nature',
+					},
+					{
+						name: 'Tax Rates',
+						value: 'tax-rate',
+					},
+					{
+						name: 'Accounting Codes',
+						value: 'accounting-code',
+					},
+					{
+						name: 'Languages',
+						value: 'language',
+					},
+					{
+						name: 'Workforces',
+						value: 'workforce',
+					},
+					{
+						name: 'Payslips',
+						value: 'payslip',
+					},
+					{
+						name: 'Pipes',
+						value: 'pipe',
+					},
+					{
+						name: 'Account',
+						value: 'account',
+					},
 				],
 				default: 'company',
 			},
@@ -267,6 +316,12 @@ export class Axonaut implements INodeType {
 						action: 'Get an employee',
 					},
 					{
+						name: 'Get Company Employees',
+						value: 'getCompanyEmployees',
+						description: 'Get all employees of a specific company',
+						action: 'Get company employees',
+					},
+					{
 						name: 'Get Many',
 						value: 'getAll',
 						description: 'Get all employees',
@@ -311,6 +366,12 @@ export class Axonaut implements INodeType {
 						value: 'get',
 						description: 'Get an invoice by ID',
 						action: 'Get an invoice',
+					},
+					{
+						name: 'Get Company Invoices',
+						value: 'getCompanyInvoices',
+						description: 'Get all invoices of a specific company',
+						action: 'Get company invoices',
 					},
 					{
 						name: 'Get Many',
@@ -370,6 +431,18 @@ export class Axonaut implements INodeType {
 						description: 'Create or update an opportunity based on name',
 						action: 'Upsert an opportunity',
 					},
+					{
+						name: 'Mark as Won',
+						value: 'markWon',
+						description: 'Register an opportunity as won',
+						action: 'Mark opportunity as won',
+					},
+					{
+						name: 'Mark as Lost',
+						value: 'markLost',
+						description: 'Register an opportunity as lost',
+						action: 'Mark opportunity as lost',
+					},
 				],
 				default: 'get',
 			},
@@ -421,6 +494,18 @@ export class Axonaut implements INodeType {
 						value: 'upsert',
 						description: 'Create or update a product based on unique identifier',
 						action: 'Upsert a product',
+					},
+					{
+						name: 'Get Stock',
+						value: 'getStock',
+						description: 'Get the stock of a product',
+						action: 'Get product stock',
+					},
+					{
+						name: 'Update Stock',
+						value: 'updateStock',
+						description: 'Update the stock of a product',
+						action: 'Update product stock',
 					},
 				],
 				default: 'get',
@@ -541,6 +626,12 @@ export class Axonaut implements INodeType {
 						value: 'getAll',
 						description: 'Get all expenses',
 						action: 'Get many expenses',
+					},
+					{
+						name: 'Create Payment',
+						value: 'createPayment',
+						description: 'Create an expense payment',
+						action: 'Create expense payment',
 					},
 				],
 				default: 'get',
@@ -663,6 +754,12 @@ export class Axonaut implements INodeType {
 				},
 				options: [
 					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a bank transaction by ID',
+						action: 'Get a bank transaction',
+					},
+					{
 						name: 'Get Many',
 						value: 'getAll',
 						description: 'Get all bank transactions',
@@ -695,6 +792,12 @@ export class Axonaut implements INodeType {
 						value: 'get',
 						description: 'Get a contract by ID',
 						action: 'Get a contract',
+					},
+					{
+						name: 'Get Company Contracts',
+						value: 'getCompanyContracts',
+						description: 'Get all contracts of a specific company',
+						action: 'Get company contracts',
 					},
 					{
 						name: 'Get Many',
@@ -741,10 +844,22 @@ export class Axonaut implements INodeType {
 						action: 'Get a document',
 					},
 					{
+						name: 'Get Company Documents',
+						value: 'getCompanyDocuments',
+						description: 'Get all documents of a specific company',
+						action: 'Get company documents',
+					},
+					{
 						name: 'Update',
 						value: 'update',
 						description: 'Update a document',
 						action: 'Update a document',
+					},
+					{
+						name: 'Download',
+						value: 'download',
+						description: 'Download a document file',
+						action: 'Download a document',
 					},
 				],
 				default: 'get',
@@ -767,6 +882,12 @@ export class Axonaut implements INodeType {
 						value: 'create',
 						description: 'Create a new expense payment',
 						action: 'Create a expense payment',
+					},
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get an expense payment by ID',
+						action: 'Get an expense payment',
 					},
 					{
 						name: 'Get Many',
@@ -795,6 +916,12 @@ export class Axonaut implements INodeType {
 						value: 'create',
 						description: 'Create a new invoice payment',
 						action: 'Create a invoice payment',
+					},
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get an invoice payment by ID',
+						action: 'Get an invoice payment',
 					},
 					{
 						name: 'Get Many',
@@ -1116,6 +1243,434 @@ export class Axonaut implements INodeType {
 				default: 'create',
 			},
 
+			// Themes Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['theme'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a theme by ID',
+						action: 'Get a theme',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all themes',
+						action: 'Get many themes',
+					},
+				],
+				default: 'get',
+			},
+
+			// Bank Accounts Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['bank-account'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a bank account by ID',
+						action: 'Get a bank account',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all bank accounts',
+						action: 'Get many bank accounts',
+					},
+				],
+				default: 'get',
+			},
+
+			// Company Categories Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['company-category'],
+					},
+				},
+				options: [
+					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a new company category',
+						action: 'Create a company category',
+					},
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a company category by ID',
+						action: 'Get a company category',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all company categories',
+						action: 'Get many company categories',
+					},
+				],
+				default: 'get',
+			},
+
+			// Task Natures Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['task-nature'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a task nature by ID',
+						action: 'Get a task nature',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all task natures',
+						action: 'Get many task natures',
+					},
+				],
+				default: 'get',
+			},
+
+			// Project Natures Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['project-nature'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a project nature by ID',
+						action: 'Get a project nature',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all project natures',
+						action: 'Get many project natures',
+					},
+				],
+				default: 'get',
+			},
+
+			// Tax Rates Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['tax-rate'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a tax rate by ID',
+						action: 'Get a tax rate',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all tax rates',
+						action: 'Get many tax rates',
+					},
+				],
+				default: 'get',
+			},
+
+			// Accounting Codes Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['accounting-code'],
+					},
+				},
+				options: [
+					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a new accounting code',
+						action: 'Create an accounting code',
+					},
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get an accounting code by ID',
+						action: 'Get an accounting code',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all accounting codes',
+						action: 'Get many accounting codes',
+					},
+				],
+				default: 'get',
+			},
+
+			// Languages Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['language'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a language by ID',
+						action: 'Get a language',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all languages',
+						action: 'Get many languages',
+					},
+				],
+				default: 'get',
+			},
+
+			// Workforces Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['workforce'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a workforce by ID',
+						action: 'Get a workforce',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all workforces',
+						action: 'Get many workforces',
+					},
+				],
+				default: 'getAll',
+			},
+
+			// Payslips Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['payslip'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a payslip by ID',
+						action: 'Get a payslip',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all payslips',
+						action: 'Get many payslips',
+					},
+				],
+				default: 'get',
+			},
+
+			// Pipes Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['pipe'],
+					},
+				},
+				options: [
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a pipe by ID',
+						action: 'Get a pipe',
+					},
+					{
+						name: 'Get Many',
+						value: 'getAll',
+						description: 'Get all pipes',
+						action: 'Get many pipes',
+					},
+				],
+				default: 'get',
+			},
+
+			// Account Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['account'],
+					},
+				},
+				options: [
+					{
+						name: 'Get Current User',
+						value: 'getCurrentUser',
+						description: 'Get current user information',
+						action: 'Get current user',
+					},
+					{
+						name: 'Get Users',
+						value: 'getUsers',
+						description: 'Get all users of the account',
+						action: 'Get all users',
+					},
+					{
+						name: 'Get Custom Fields',
+						value: 'getCustomFields',
+						description: 'Get all custom fields of the account',
+						action: 'Get custom fields',
+					},
+					{
+						name: 'Get Credits History',
+						value: 'getCreditsHistory',
+						description: 'Get credits history of the account',
+						action: 'Get credits history',
+					},
+				],
+				default: 'getCurrentUser',
+			},
+
+			// Task ID for timetracking operations
+			{
+				displayName: 'Task',
+				name: 'taskId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['timetracking'],
+						operation: ['getTaskTimetrackings'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a task...',
+						typeOptions: {
+							searchListMethod: 'getTasks',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The task to get timetrackings for',
+			},
+
+			// Ticket ID for timetracking operations
+			{
+				displayName: 'Ticket',
+				name: 'ticketId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['timetracking'],
+						operation: ['getTicketTimetrackings'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a ticket...',
+						typeOptions: {
+							searchListMethod: 'getTickets',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The ticket to get timetrackings for',
+			},
+
 			// ID Fields for each resource
 			{
 				displayName: 'Company',
@@ -1181,6 +1736,41 @@ export class Axonaut implements INodeType {
 				],
 				description: 'The employee to work with',
 			},
+			
+			// Company ID for getCompanyEmployees operation
+			{
+				displayName: 'Company',
+				name: 'companyId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['employee'],
+						operation: ['getCompanyEmployees'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a company...',
+						typeOptions: {
+							searchListMethod: 'getCompanies',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The company to get employees for',
+			},
+			
 			{
 				displayName: 'Invoice',
 				name: 'invoiceId',
@@ -1213,6 +1803,41 @@ export class Axonaut implements INodeType {
 				],
 				description: 'The invoice to work with',
 			},
+			
+			// Company ID for getCompanyInvoices operation
+			{
+				displayName: 'Company',
+				name: 'companyId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['invoice'],
+						operation: ['getCompanyInvoices'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a company...',
+						typeOptions: {
+							searchListMethod: 'getCompanies',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The company to get invoices for',
+			},
+			
 			{
 				displayName: 'Opportunity',
 				name: 'opportunityId',
@@ -1222,7 +1847,7 @@ export class Axonaut implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['opportunity'],
-						operation: ['get', 'update', 'delete'],
+						operation: ['get', 'update', 'delete', 'markWon', 'markLost'],
 					},
 				},
 				modes: [
@@ -1254,7 +1879,7 @@ export class Axonaut implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['product'],
-						operation: ['get', 'update', 'delete'],
+						operation: ['get', 'update', 'delete', 'getStock', 'updateStock'],
 					},
 				},
 				modes: [
@@ -1374,6 +1999,102 @@ export class Axonaut implements INodeType {
 				description: 'The expense to work with',
 			},
 			{
+				displayName: 'Invoice Payment',
+				name: 'invoicePaymentId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['invoice-payment'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select an invoice payment...',
+						typeOptions: {
+							searchListMethod: 'getInvoicePayments',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The invoice payment to work with',
+			},
+			{
+				displayName: 'Expense Payment',
+				name: 'expensePaymentId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['expense-payment'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select an expense payment...',
+						typeOptions: {
+							searchListMethod: 'getExpensePayments',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The expense payment to work with',
+			},
+			{
+				displayName: 'Bank Transaction',
+				name: 'bankTransactionId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['bank-transaction'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a bank transaction...',
+						typeOptions: {
+							searchListMethod: 'getBankTransactions',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The bank transaction to work with',
+			},
+			{
 				displayName: 'Event',
 				name: 'eventId',
 				type: 'resourceLocator',
@@ -1404,6 +2125,124 @@ export class Axonaut implements INodeType {
 					},
 				],
 				description: 'The event to work with',
+			},
+
+			// Workforce ID for workforce operations
+			{
+				displayName: 'Workforce',
+				name: 'workforceId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['workforce'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a workforce...',
+						typeOptions: {
+							searchListMethod: 'getWorkforces',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The workforce to work with',
+			},
+
+			// Delivery Form ID for delivery-forms operations
+			{
+				displayName: 'Delivery Form',
+				name: 'deliveryFormId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['delivery-forms'],
+						operation: ['get', 'download'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a delivery form...',
+						typeOptions: {
+							searchListMethod: 'getDeliveryForms',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The delivery form to work with',
+			},
+
+			// Receipt ID for supplier delivery receipt operations
+			{
+				displayName: 'Receipt ID',
+				name: 'receiptId',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: {
+					show: {
+						resource: ['supplier-delivery'],
+						operation: ['deleteReceipt'],
+					},
+				},
+				description: 'The receipt ID to delete',
+			},
+
+			// Supplier Delivery ID for supplier-delivery operations
+			{
+				displayName: 'Supplier Delivery',
+				name: 'supplierDeliveryId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['supplier-delivery'],
+						operation: ['get', 'createReceipt', 'deleteReceipt'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a supplier delivery...',
+						typeOptions: {
+							searchListMethod: 'getSupplierDeliveries',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The supplier delivery to work with',
 			},
 
 			{
@@ -1472,8 +2311,40 @@ export class Axonaut implements INodeType {
 				],
 				description: 'The contract to work with',
 			},
-
-
+			
+			// Company ID for getCompanyContracts operation
+			{
+				displayName: 'Company',
+				name: 'companyId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['contract'],
+						operation: ['getCompanyContracts'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a company...',
+						typeOptions: {
+							searchListMethod: 'getCompanies',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The company to get contracts for',
+			},
 
 			{
 				displayName: 'Document',
@@ -1484,7 +2355,7 @@ export class Axonaut implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['document'],
-						operation: ['get', 'update'],
+						operation: ['get', 'update', 'download'],
 					},
 				},
 				modes: [
@@ -1506,6 +2377,40 @@ export class Axonaut implements INodeType {
 					},
 				],
 				description: 'The document to work with',
+			},
+			
+			// Company ID for getCompanyDocuments operation
+			{
+				displayName: 'Company',
+				name: 'companyId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['document'],
+						operation: ['getCompanyDocuments'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a company...',
+						typeOptions: {
+							searchListMethod: 'getCompanies',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The company to get documents for',
 			},
 
 
@@ -1675,6 +2580,346 @@ export class Axonaut implements INodeType {
 					},
 				],
 				description: 'The timetracking to work with',
+			},
+
+			// Theme ID for theme operations
+			{
+				displayName: 'Theme',
+				name: 'themeId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['theme'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a theme...',
+						typeOptions: {
+							searchListMethod: 'getThemes',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The theme to work with',
+			},
+
+			// Bank Account ID for bank-account operations
+			{
+				displayName: 'Bank Account',
+				name: 'bankAccountId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['bank-account'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a bank account...',
+						typeOptions: {
+							searchListMethod: 'getBankAccounts',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The bank account to work with',
+			},
+
+			// Company Category ID for company-category operations
+			{
+				displayName: 'Company Category',
+				name: 'companyCategoryId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['company-category'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a company category...',
+						typeOptions: {
+							searchListMethod: 'getCompanyCategories',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The company category to work with',
+			},
+
+			// Task Nature ID for task-nature operations
+			{
+				displayName: 'Task Nature',
+				name: 'taskNatureId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['task-nature'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a task nature...',
+						typeOptions: {
+							searchListMethod: 'getTaskNatures',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The task nature to work with',
+			},
+
+			// Project Nature ID for project-nature operations
+			{
+				displayName: 'Project Nature',
+				name: 'projectNatureId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['project-nature'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a project nature...',
+						typeOptions: {
+							searchListMethod: 'getProjectNatures',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The project nature to work with',
+			},
+
+			// Tax Rate ID for tax-rate operations
+			{
+				displayName: 'Tax Rate',
+				name: 'taxRateId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tax-rate'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a tax rate...',
+						typeOptions: {
+							searchListMethod: 'getTaxRates',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The tax rate to work with',
+			},
+
+			// Accounting Code ID for accounting-code operations
+			{
+				displayName: 'Accounting Code',
+				name: 'accountingCodeId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['accounting-code'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select an accounting code...',
+						typeOptions: {
+							searchListMethod: 'getAccountingCodes',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The accounting code to work with',
+			},
+
+			// Language ID for language operations
+			{
+				displayName: 'Language',
+				name: 'languageId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['language'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a language...',
+						typeOptions: {
+							searchListMethod: 'getLanguages',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The language to work with',
+			},
+
+			// Payslip ID for payslip operations
+			{
+				displayName: 'Payslip',
+				name: 'payslipId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['payslip'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a payslip...',
+						typeOptions: {
+							searchListMethod: 'getPayslips',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The payslip to work with',
+			},
+
+			// Pipe ID for pipe operations
+			{
+				displayName: 'Pipe',
+				name: 'pipeId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['pipe'],
+						operation: ['get'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a pipe...',
+						typeOptions: {
+							searchListMethod: 'getPipes',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The pipe to work with',
 			},
 
 			// Required fields for create operations
@@ -2041,6 +3286,22 @@ export class Axonaut implements INodeType {
 					},
 				},
 				description: 'Product name (required)',
+			},
+			
+			// Stock quantity for updateStock operation
+			{
+				displayName: 'Stock Quantity',
+				name: 'stockQuantity',
+				type: 'number',
+				required: true,
+				default: 0,
+				displayOptions: {
+					show: {
+						resource: ['product'],
+						operation: ['updateStock'],
+					},
+				},
+				description: 'New stock quantity',
 			},
 
 			// ===========================================
@@ -2506,15 +3767,27 @@ export class Axonaut implements INodeType {
 					const companies = await axonautApiRequest.call(this, 'GET', '/companies');
 					const results: INodeListSearchResult = { results: [] };
 					
-					for (const company of companies.slice(0, 10)) { // Limit to first 10 companies for performance
+					// Check more companies but limit to 50 for performance
+					const companiesToCheck = companies.slice(0, 50);
+					
+					for (const company of companiesToCheck) {
 						try {
 							const documents = await axonautApiRequest.call(this, 'GET', `/companies/${company.id}/documents`);
 							if (Array.isArray(documents)) {
 								for (const document of documents) {
-									const displayName = document.name || `Document ${document.id}`;
+									// Create descriptive name with document info
+									const name = document.name || document.filename || `Document ${document.id}`;
+									const type = document.type || '';
+									const date = document.created_at ? document.created_at.split('T')[0] : '';
+									
+									let displayName = name;
+									if (type) displayName += ` (${type})`;
+									if (date) displayName += ` - ${date}`;
+									displayName += ` [${company.name}]`;
+									
 									if (!filter || displayName.toLowerCase().includes(filter.toLowerCase())) {
 										results.results.push({
-											name: `${displayName} (${company.name})`,
+											name: displayName,
 											value: document.id.toString(),
 										});
 									}
@@ -2582,8 +3855,147 @@ export class Axonaut implements INodeType {
 
 				return { results };
 			},
+			async getInvoicePayments(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				// Custom implementation for invoice payments to create descriptive names
+				const response = await axonautApiRequest.call(this, 'GET', '/payments');
+				const payments = Array.isArray(response) ? response : [];
+				
+				let results = payments.map((payment: any) => {
+					// Create descriptive name: amount - date - reference (nature)
+					const amount = payment.amount ? `${payment.amount}€` : '';
+					const date = payment.date || '';
+					const reference = payment.reference || '';
+					const nature = payment.nature || '';
+					
+					let name = '';
+					if (amount) name += amount;
+					if (date) name += (name ? ' - ' : '') + date;
+					if (reference) name += (name ? ' - ' : '') + reference;
+					if (nature) name += (name ? ' (' : '(') + nature + ')';
+					if (!name) name = `Payment ${payment.id}`;
+					
+					return {
+						name,
+						value: payment.id.toString(),
+					};
+				});
+
+				// Apply filter if provided
+				if (filter) {
+					const filterLower = filter.toLowerCase();
+					results = results.filter((item: any) => 
+						item.name.toLowerCase().includes(filterLower)
+					);
+				}
+
+				return { results };
+			},
+			async getExpensePayments(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				// Custom implementation for expense payments to create descriptive names
+				const response = await axonautApiRequest.call(this, 'GET', '/expense-payments');
+				const payments = Array.isArray(response) ? response : [];
+				
+				let results = payments.map((payment: any) => {
+					// Create descriptive name: amount - date - reference (nature)
+					const amount = payment.amount ? `${payment.amount}€` : '';
+					const date = payment.date || '';
+					const reference = payment.reference ? payment.reference.substring(0, 50) : ''; // Limit reference length
+					const nature = payment.nature || '';
+					
+					let name = '';
+					if (amount) name += amount;
+					if (date) name += (name ? ' - ' : '') + date;
+					if (reference) name += (name ? ' - ' : '') + reference + (payment.reference && payment.reference.length > 50 ? '...' : '');
+					if (nature) name += (name ? ' (' : '(') + nature + ')';
+					if (!name) name = `Expense Payment ${payment.id}`;
+					
+					return {
+						name,
+						value: payment.id.toString(),
+					};
+				});
+
+				// Apply filter if provided
+				if (filter) {
+					const filterLower = filter.toLowerCase();
+					results = results.filter((item: any) => 
+						item.name.toLowerCase().includes(filterLower)
+					);
+				}
+
+				return { results };
+			},
+			async getBankTransactions(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				// Custom implementation for bank transactions to create descriptive names
+				const response = await axonautApiRequest.call(this, 'GET', '/bank-transactions');
+				const transactions = Array.isArray(response) ? response : [];
+				
+				let results = transactions.map((transaction: any) => {
+					// Create descriptive name: amount - date - counterparty - description
+					const amount = transaction.amount ? `${transaction.amount}€` : '';
+					const date = transaction.operation_date || '';
+					const counterparty = transaction.counterparty_name || '';
+					const description = transaction.description ? transaction.description.substring(0, 40) : '';
+					
+					let name = '';
+					if (amount) name += amount;
+					if (date) name += (name ? ' - ' : '') + date;
+					if (counterparty) name += (name ? ' - ' : '') + counterparty;
+					if (description) name += (name ? ' - ' : '') + description + (transaction.description && transaction.description.length > 40 ? '...' : '');
+					if (!name) name = `Transaction ${transaction.id}`;
+					
+					return {
+						name,
+						value: transaction.id.toString(),
+					};
+				});
+
+				// Apply filter if provided
+				if (filter) {
+					const filterLower = filter.toLowerCase();
+					results = results.filter((item: any) => 
+						item.name.toLowerCase().includes(filterLower)
+					);
+				}
+
+				return { results };
+			},
+
+			// NEW METHODS FOR THE ADDED GET OPERATIONS
+			async getThemes(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/themes', 'id', 'name', 'Theme', filter);
+			},
+			async getBankAccounts(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/bank-accounts', 'id', 'name', 'Bank Account', filter);
+			},
+			async getCompanyCategories(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/company-categories', 'id', 'name', 'Company Category', filter);
+			},
+			async getTaskNatures(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/taskNatures', 'id', 'name', 'Task Nature', filter);
+			},
+			async getProjectNatures(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/projectNatures', 'id', 'name', 'Project Nature', filter);
+			},
+			async getTaxRates(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/tax-rates', 'id', 'name', 'Tax Rate', filter);
+			},
+			async getAccountingCodes(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/accounting-codes', 'id', 'name', 'Accounting Code', filter);
+			},
+			async getLanguages(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/languages', 'id', 'name', 'Language', filter);
+			},
+			async getPayslips(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/payslips', 'id', 'id', 'Payslip', filter);
+			},
+			async getPipes(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/pipes', 'id', 'name', 'Pipe', filter);
+			},
 		},
 	};
+
+
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
@@ -2698,6 +4110,11 @@ export class Axonaut implements INodeType {
 						const employeeId = employeeLocator.value;
 						responseData = await axonautApiRequest.call(this, 'GET', `/employees/${employeeId}`);
 					}
+					if (operation === 'getCompanyEmployees') {
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}/employees`);
+					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						responseData = await axonautApiRequest.call(this, 'GET', '/employees');
@@ -2753,6 +4170,11 @@ export class Axonaut implements INodeType {
 						const invoiceLocator = this.getNodeParameter('invoiceId', i) as any;
 						const invoiceId = invoiceLocator.value;
 						responseData = await axonautApiRequest.call(this, 'GET', `/invoices/${invoiceId}`);
+					}
+					if (operation === 'getCompanyInvoices') {
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}/invoices`);
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
@@ -2826,6 +4248,16 @@ export class Axonaut implements INodeType {
 							responseData._operation = 'created';
 						}
 					}
+					if (operation === 'markWon') {
+						const opportunityLocator = this.getNodeParameter('opportunityId', i) as any;
+						const opportunityId = opportunityLocator.value;
+						responseData = await axonautApiRequest.call(this, 'PATCH', `/opportunities/${opportunityId}/won`, {});
+					}
+					if (operation === 'markLost') {
+						const opportunityLocator = this.getNodeParameter('opportunityId', i) as any;
+						const opportunityId = opportunityLocator.value;
+						responseData = await axonautApiRequest.call(this, 'PATCH', `/opportunities/${opportunityId}/lost`, {});
+					}
 				}
 
 				// Product operations
@@ -2893,6 +4325,18 @@ export class Axonaut implements INodeType {
 							responseData = await axonautApiRequest.call(this, 'POST', '/products', body);
 							responseData._operation = 'created';
 						}
+					}
+					if (operation === 'getStock') {
+						const productLocator = this.getNodeParameter('productId', i) as any;
+						const productId = productLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/products/${productId}/stock`);
+					}
+					if (operation === 'updateStock') {
+						const productLocator = this.getNodeParameter('productId', i) as any;
+						const productId = productLocator.value;
+						const stockQuantity = this.getNodeParameter('stockQuantity', i) as number;
+						const body = { quantity: stockQuantity };
+						responseData = await axonautApiRequest.call(this, 'PATCH', `/products/${productId}/stock`, body);
 					}
 				}
 
@@ -3018,6 +4462,12 @@ export class Axonaut implements INodeType {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						responseData = await axonautApiRequest.call(this, 'GET', '/expenses');
 					}
+					if (operation === 'createPayment') {
+						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const body: any = {};
+						Object.assign(body, additionalFields);
+						responseData = await axonautApiRequest.call(this, 'POST', '/expenses/payments', body);
+					}
 				}
 
 				// Event operations
@@ -3128,6 +4578,25 @@ export class Axonaut implements INodeType {
 
 				// Bank transaction operations
 				if (resource === 'bank-transaction') {
+					if (operation === 'get') {
+						const bankTransactionLocator = this.getNodeParameter('bankTransactionId', i) as any;
+						const bankTransactionId = bankTransactionLocator.value;
+						
+						// Get all bank transactions and filter client-side (API doesn't support GET by ID)
+						const allBankTransactions = await axonautApiRequest.call(this, 'GET', '/bank-transactions');
+						
+						if (Array.isArray(allBankTransactions)) {
+							responseData = allBankTransactions.find((transaction: any) => 
+								transaction.id.toString() === bankTransactionId.toString()
+							);
+							
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Bank transaction with ID ${bankTransactionId} not found`);
+							}
+						} else {
+							throw new NodeOperationError(this.getNode(), 'Failed to retrieve bank transactions list');
+						}
+					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						responseData = await axonautApiRequest.call(this, 'GET', '/bank-transactions');
@@ -3154,6 +4623,11 @@ export class Axonaut implements INodeType {
 						const contractLocator = this.getNodeParameter('contractId', i) as any;
 						const contractId = contractLocator.value;
 						responseData = await axonautApiRequest.call(this, 'GET', `/contracts/${contractId}`);
+					}
+					if (operation === 'getCompanyContracts') {
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}/contracts`);
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
@@ -3194,6 +4668,11 @@ export class Axonaut implements INodeType {
 						// Use direct API route for documents
 						responseData = await axonautApiRequest.call(this, 'GET', `/documents/${documentId}`);
 					}
+					if (operation === 'getCompanyDocuments') {
+						const companyLocator = this.getNodeParameter('companyId', i) as any;
+						const companyId = companyLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/companies/${companyId}/documents`);
+					}
 					if (operation === 'update') {
 						const documentLocator = this.getNodeParameter('documentId', i) as any;
 						const documentId = documentLocator.value;
@@ -3223,6 +4702,13 @@ export class Axonaut implements INodeType {
 							throw new Error(`Document with ID ${documentId} not found`);
 						}
 					}
+					if (operation === 'download') {
+						const documentLocator = this.getNodeParameter('documentId', i) as any;
+						const documentId = documentLocator.value;
+						
+						// Use the download endpoint
+						responseData = await axonautApiRequest.call(this, 'GET', `/documents/${documentId}/download`);
+					}
 				}
 
 				// Expense payment operations
@@ -3232,6 +4718,25 @@ export class Axonaut implements INodeType {
 						const body: any = {};
 						Object.assign(body, additionalFields);
 						responseData = await axonautApiRequest.call(this, 'POST', '/expense-payments', body);
+					}
+					if (operation === 'get') {
+						const expensePaymentLocator = this.getNodeParameter('expensePaymentId', i) as any;
+						const expensePaymentId = expensePaymentLocator.value;
+						
+						// Get all expense payments and filter client-side (API doesn't support GET by ID)
+						const allExpensePayments = await axonautApiRequest.call(this, 'GET', '/expense-payments');
+						
+						if (Array.isArray(allExpensePayments)) {
+							responseData = allExpensePayments.find((payment: any) => 
+								payment.id.toString() === expensePaymentId.toString()
+							);
+							
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Expense payment with ID ${expensePaymentId} not found`);
+							}
+						} else {
+							throw new NodeOperationError(this.getNode(), 'Failed to retrieve expense payments list');
+						}
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
@@ -3252,6 +4757,25 @@ export class Axonaut implements INodeType {
 						const body: any = {};
 						Object.assign(body, additionalFields);
 						responseData = await axonautApiRequest.call(this, 'POST', '/payments', body);
+					}
+					if (operation === 'get') {
+						const invoicePaymentLocator = this.getNodeParameter('invoicePaymentId', i) as any;
+						const invoicePaymentId = invoicePaymentLocator.value;
+						
+						// Get all invoice payments and filter client-side (API doesn't support GET by ID)
+						const allInvoicePayments = await axonautApiRequest.call(this, 'GET', '/payments');
+						
+						if (Array.isArray(allInvoicePayments)) {
+							responseData = allInvoicePayments.find((payment: any) => 
+								payment.id.toString() === invoicePaymentId.toString()
+							);
+							
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Invoice payment with ID ${invoicePaymentId} not found`);
+							}
+						} else {
+							throw new NodeOperationError(this.getNode(), 'Failed to retrieve invoice payments list');
+						}
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
@@ -3571,6 +5095,384 @@ export class Axonaut implements INodeType {
 						const deliveryFormLocator = this.getNodeParameter('deliveryFormId', i) as any;
 						const deliveryFormId = deliveryFormLocator.value;
 						responseData = await axonautApiRequest.call(this, 'GET', `/delivery-forms/${deliveryFormId}/download`);
+					}
+				}
+
+				// Themes operations
+				if (resource === 'theme') {
+					if (operation === 'get') {
+						const themeId = this.getNodeParameter('themeId', i) as IDataObject;
+						const id = themeId.mode === 'id' ? themeId.value : themeId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Theme ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allThemes = await axonautApiRequest.call(this, 'GET', '/themes');
+						if (Array.isArray(allThemes)) {
+							responseData = allThemes.find((theme: any) => theme.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Theme with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/themes');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Bank Accounts operations
+				if (resource === 'bank-account') {
+					if (operation === 'get') {
+						const bankAccountId = this.getNodeParameter('bankAccountId', i) as IDataObject;
+						const id = bankAccountId.mode === 'id' ? bankAccountId.value : bankAccountId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Bank Account ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allBankAccounts = await axonautApiRequest.call(this, 'GET', '/bank-accounts');
+						if (Array.isArray(allBankAccounts)) {
+							responseData = allBankAccounts.find((account: any) => account.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Bank account with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/bank-accounts');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Company Categories operations
+				if (resource === 'company-category') {
+					if (operation === 'create') {
+						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const body: any = {};
+						Object.assign(body, additionalFields);
+						responseData = await axonautApiRequest.call(this, 'POST', '/company-categories', body);
+					}
+					if (operation === 'get') {
+						const companyCategoryId = this.getNodeParameter('companyCategoryId', i) as IDataObject;
+						const id = companyCategoryId.mode === 'id' ? companyCategoryId.value : companyCategoryId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Company Category ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allCategories = await axonautApiRequest.call(this, 'GET', '/company-categories');
+						if (Array.isArray(allCategories)) {
+							responseData = allCategories.find((category: any) => category.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Company category with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/company-categories');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Task Natures operations
+				if (resource === 'task-nature') {
+					if (operation === 'get') {
+						const taskNatureId = this.getNodeParameter('taskNatureId', i) as IDataObject;
+						const id = taskNatureId.mode === 'id' ? taskNatureId.value : taskNatureId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Task Nature ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allTaskNatures = await axonautApiRequest.call(this, 'GET', '/taskNatures');
+						if (Array.isArray(allTaskNatures)) {
+							responseData = allTaskNatures.find((nature: any) => nature.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Task nature with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/taskNatures');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Project Natures operations
+				if (resource === 'project-nature') {
+					if (operation === 'get') {
+						const projectNatureId = this.getNodeParameter('projectNatureId', i) as IDataObject;
+						const id = projectNatureId.mode === 'id' ? projectNatureId.value : projectNatureId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Project Nature ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allProjectNatures = await axonautApiRequest.call(this, 'GET', '/projectNatures');
+						if (Array.isArray(allProjectNatures)) {
+							responseData = allProjectNatures.find((nature: any) => nature.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Project nature with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/projectNatures');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Tax Rates operations
+				if (resource === 'tax-rate') {
+					if (operation === 'get') {
+						const taxRateId = this.getNodeParameter('taxRateId', i) as IDataObject;
+						const id = taxRateId.mode === 'id' ? taxRateId.value : taxRateId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Tax Rate ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allTaxRates = await axonautApiRequest.call(this, 'GET', '/tax-rates');
+						if (Array.isArray(allTaxRates)) {
+							responseData = allTaxRates.find((rate: any) => rate.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Tax rate with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/tax-rates');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Accounting Codes operations
+				if (resource === 'accounting-code') {
+					if (operation === 'create') {
+						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const body: any = {};
+						Object.assign(body, additionalFields);
+						responseData = await axonautApiRequest.call(this, 'POST', '/accounting-codes', body);
+					}
+					if (operation === 'get') {
+						const accountingCodeId = this.getNodeParameter('accountingCodeId', i) as IDataObject;
+						const id = accountingCodeId.mode === 'id' ? accountingCodeId.value : accountingCodeId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Accounting Code ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allAccountingCodes = await axonautApiRequest.call(this, 'GET', '/accounting-codes');
+						if (Array.isArray(allAccountingCodes)) {
+							responseData = allAccountingCodes.find((code: any) => code.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Accounting code with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/accounting-codes');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Languages operations
+				if (resource === 'language') {
+					if (operation === 'get') {
+						const languageId = this.getNodeParameter('languageId', i) as IDataObject;
+						const id = languageId.mode === 'id' ? languageId.value : languageId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Language ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allLanguages = await axonautApiRequest.call(this, 'GET', '/languages');
+						if (Array.isArray(allLanguages)) {
+							responseData = allLanguages.find((language: any) => language.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Language with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/languages');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Workforces operations
+				if (resource === 'workforce') {
+					if (operation === 'get') {
+						const workforceLocator = this.getNodeParameter('workforceId', i) as any;
+						const workforceId = workforceLocator.value;
+						responseData = await axonautApiRequest.call(this, 'GET', `/workforces/${workforceId}`);
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/workforces');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Payslips operations
+				if (resource === 'payslip') {
+					if (operation === 'get') {
+						const payslipId = this.getNodeParameter('payslipId', i) as IDataObject;
+						const id = payslipId.mode === 'id' ? payslipId.value : payslipId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Payslip ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allPayslips = await axonautApiRequest.call(this, 'GET', '/payslips');
+						if (Array.isArray(allPayslips)) {
+							responseData = allPayslips.find((payslip: any) => payslip.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Payslip with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/payslips');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Pipes operations
+				if (resource === 'pipe') {
+					if (operation === 'get') {
+						const pipeId = this.getNodeParameter('pipeId', i) as IDataObject;
+						const id = pipeId.mode === 'id' ? pipeId.value : pipeId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Pipe ID is required');
+						}
+						
+						// Client-side filtering since direct GET not supported
+						const allPipes = await axonautApiRequest.call(this, 'GET', '/pipes');
+						if (Array.isArray(allPipes)) {
+							responseData = allPipes.find((pipe: any) => pipe.id.toString() === id.toString());
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Pipe with ID ${id} not found`);
+							}
+						}
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/pipes');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Account operations
+				if (resource === 'account') {
+					if (operation === 'getCurrentUser') {
+						responseData = await axonautApiRequest.call(this, 'GET', '/me');
+					}
+					if (operation === 'getUsers') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/users');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+					if (operation === 'getCustomFields') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/customfields');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+					if (operation === 'getCreditsHistory') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/credits-history');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
 					}
 				}
 
