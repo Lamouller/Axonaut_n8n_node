@@ -1083,6 +1083,12 @@ export class Axonaut implements INodeType {
 						action: 'Create a timetracking',
 					},
 					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a timetracking by ID (client-side filtered)',
+						action: 'Get a timetracking',
+					},
+					{
 						name: 'Get Many',
 						value: 'getAll',
 						description: 'Get all timetrackings',
@@ -1647,7 +1653,7 @@ export class Axonaut implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['timetracking'],
-						operation: ['delete'],
+						operation: ['get', 'delete'],
 					},
 				},
 				modes: [
@@ -2540,7 +2546,41 @@ export class Axonaut implements INodeType {
 				return await getResourceList.call(this, '/tickets', 'id', 'title', 'Ticket', filter);
 			},
 			async getTimetrackings(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
-				return await getResourceList.call(this, '/timetrackings', 'id', 'id', 'Timetracking', filter);
+				// Custom implementation for timetrackings since they don't have a simple name field
+				const response = await axonautApiRequest.call(this, 'GET', '/timetrackings');
+				const timetrackings = Array.isArray(response) ? response : [];
+				
+				let results = timetrackings.map((timetracking: any) => {
+					// Create descriptive name from available fields
+					const hours = timetracking.hours ? `${timetracking.hours}h` : '';
+					const date = timetracking.startDate ? timetracking.startDate.split(' ')[0] : '';
+					const comment = timetracking.comment || '';
+					const workforce = timetracking.workforce ? 
+						`${timetracking.workforce.first_name} ${timetracking.workforce.last_name}`.trim() : '';
+					
+					// Build descriptive name
+					let name = '';
+					if (hours) name += hours;
+					if (date) name += (name ? ' - ' : '') + date;
+					if (workforce) name += (name ? ' (' : '(') + workforce + ')';
+					if (comment) name += (name ? ' - ' : '') + comment;
+					if (!name) name = `Timetracking ${timetracking.id}`;
+					
+					return {
+						name,
+						value: timetracking.id.toString(),
+					};
+				});
+
+				// Apply filter if provided
+				if (filter) {
+					const filterLower = filter.toLowerCase();
+					results = results.filter((item: any) => 
+						item.name.toLowerCase().includes(filterLower)
+					);
+				}
+
+				return { results };
 			},
 		},
 	};
@@ -3367,6 +3407,25 @@ export class Axonaut implements INodeType {
 						const body: any = {};
 						Object.assign(body, additionalFields);
 						responseData = await axonautApiRequest.call(this, 'POST', '/timetrackings', body);
+					}
+					if (operation === 'get') {
+						const timetrackingLocator = this.getNodeParameter('timetrackingId', i) as any;
+						const timetrackingId = timetrackingLocator.value;
+						
+						// Get all timetrackings and filter client-side (API doesn't support GET by ID)
+						const allTimetrackings = await axonautApiRequest.call(this, 'GET', '/timetrackings');
+						
+						if (Array.isArray(allTimetrackings)) {
+							responseData = allTimetrackings.find((timetracking: any) => 
+								timetracking.id.toString() === timetrackingId.toString()
+							);
+							
+							if (!responseData) {
+								throw new NodeOperationError(this.getNode(), `Timetracking with ID ${timetrackingId} not found`);
+							}
+						} else {
+							throw new NodeOperationError(this.getNode(), 'Failed to retrieve timetrackings list');
+						}
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
