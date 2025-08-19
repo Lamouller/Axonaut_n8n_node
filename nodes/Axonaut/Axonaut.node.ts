@@ -3992,6 +3992,9 @@ export class Axonaut implements INodeType {
 			async getPipes(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
 				return getResourceList.call(this, '/pipes', 'id', 'name', 'Pipe', filter);
 			},
+			async getWorkforces(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
+				return getResourceList.call(this, '/workforces', 'id', ['firstname', 'lastname'], 'Workforce', filter);
+			},
 		},
 	};
 
@@ -5430,6 +5433,31 @@ export class Axonaut implements INodeType {
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
 						responseData = await axonautApiRequest.call(this, 'GET', '/pipes');
+						
+						// Apply client-side limit
+						const limit = additionalFields.limit as number;
+						if (limit && Array.isArray(responseData) && responseData.length > limit) {
+							responseData = responseData.slice(0, limit);
+						}
+					}
+				}
+
+				// Workforces operations
+				if (resource === 'workforce') {
+					if (operation === 'get') {
+						const workforceId = this.getNodeParameter('workforceId', i) as IDataObject;
+						const id = workforceId.mode === 'id' ? workforceId.value : workforceId.value;
+						
+						if (!id) {
+							throw new NodeOperationError(this.getNode(), 'Workforce ID is required');
+						}
+						
+						// Direct API call since this endpoint supports single GET
+						responseData = await axonautApiRequest.call(this, 'GET', `/workforces/${id}`);
+					}
+					if (operation === 'getAll') {
+						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
+						responseData = await axonautApiRequest.call(this, 'GET', '/workforces');
 						
 						// Apply client-side limit
 						const limit = additionalFields.limit as number;
