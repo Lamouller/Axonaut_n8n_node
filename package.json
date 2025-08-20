@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-axonaut-antislash",
-  	"version": "2.2.1",
+  	"version": "2.2.2",
   "description": "n8n community node for Axonaut API integration",
   "keywords": [
     "n8n-community-node-package",
@@ -10,14 +10,14 @@
     "api"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/trystanlamouller/Axonaut_n8n_node",
+  "homepage": "https://github.com/Lamouller/Axonaut_n8n_node",
   "author": {
     "name": "Trystan Lamouller",
     "email": "your.email@example.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trystanlamouller/Axonaut_n8n_node.git"
+    "url": "git+https://github.com/Lamouller/Axonaut_n8n_node.git"
   },
   "main": "index.ts",
   "scripts": {
