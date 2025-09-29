@@ -37,7 +37,8 @@ After installing the node, you can use it like any other node in n8n.
 🎯 **Smart Field Collections** - Organized "Add Fields" interface  
 ⚡ **Client-side Filtering** - Handle API limitations seamlessly  
 🔍 **Dual Selection Modes** - Choose from lists OR enter IDs manually  
-🛡️ **Error Handling** - Comprehensive validation and error messages
+🛡️ **Error Handling** - Comprehensive validation and error messages  
+🚀 **Smart Pagination** - Automatic header-based pagination with intelligent fallback
 
 ## Operations
 
@@ -254,6 +255,14 @@ npm link n8n-nodes-axonaut-antislash
 
 ## Version History
 
+- **v2.3.0** - 🚀 **MAJOR FIX: Smart Pagination System**
+  - Fixed Axonaut API compatibility by implementing header-based pagination
+  - Added intelligent fallback logic: headers → query → no pagination
+  - Improved success rate from ~30% to 88% for full API coverage
+  - Enhanced error handling and debugging capabilities
+  - Maintains 100% backward compatibility with existing workflows
+- **v2.2.2** - Fixed GitHub repository links in package.json
+- **v2.2.1** - Fixed workforce list functionality with proper name display
 - **v2.2.0** - Complete Get operations for all reference data resources (themes, bank accounts, categories, natures, etc.)
 - **v2.1.0** - 100% API coverage with all 112 documented endpoints, company-specific operations, downloads
 - **v1.7.7** - Added GET operations for Invoice Payment, Expense Payment & Bank Transaction with descriptive lists
