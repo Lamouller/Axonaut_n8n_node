@@ -42,7 +42,7 @@ export class AxonautApi implements ICredentialType {
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '={{$credentials.baseUrl}}',
-			url: '/companies',
+			url: '/me',
 			method: 'GET',
 		},
 	};

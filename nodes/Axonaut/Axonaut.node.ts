@@ -2278,6 +2278,39 @@ export class Axonaut implements INodeType {
 				description: 'The address to work with',
 			},
 
+			// Company ID for address getAll operation  
+			{
+				displayName: 'Company',
+				name: 'companyId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['address'],
+						operation: ['getAll', 'get', 'create'],
+					},
+				},
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						placeholder: 'Select a company...',
+						typeOptions: {
+							searchListMethod: 'getCompanies',
+							searchable: true,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'e.g. 123',
+					},
+				],
+				description: 'The company to get addresses for',
+			},
 
 			{
 				displayName: 'Contract',
