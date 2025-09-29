@@ -4067,13 +4067,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/companies');
-						
-						// Apply client-side limit (like Dendreo)
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/companies', {}, additionalFields);
 					}
 					if (operation === 'update') {
 						const companyLocator = this.getNodeParameter('companyId', i) as any;
@@ -4153,13 +4147,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/employees');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/employees', {}, additionalFields);
 					}
 					if (operation === 'update') {
 						const employeeLocator = this.getNodeParameter('employeeId', i) as any;
@@ -4214,12 +4202,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/invoices');
-						
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/invoices', {}, additionalFields);
 					}
 				}
 
@@ -4240,12 +4223,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/opportunities');
-						
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/opportunities', {}, additionalFields);
 					}
 					if (operation === 'update') {
 						const opportunityLocator = this.getNodeParameter('opportunityId', i) as any;
@@ -4319,12 +4297,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/products');
-						
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/products', {}, additionalFields);
 					}
 					if (operation === 'update') {
 						const productLocator = this.getNodeParameter('productId', i) as any;
@@ -4391,13 +4364,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/quotations');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/quotations', {}, additionalFields);
 					}
 					if (operation === 'getCompanyQuotations') {
 						const companyLocator = this.getNodeParameter('companyId', i) as any;
@@ -4438,12 +4405,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/projects');
-						
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/projects', {}, additionalFields);
 					}
 					if (operation === 'update') {
 						const projectLocator = this.getNodeParameter('projectId', i) as any;
@@ -4496,7 +4458,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/expenses');
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/expenses', {}, additionalFields);
 					}
 					if (operation === 'createPayment') {
 						const additionalFields = this.getNodeParameter('additionalFields', i);
@@ -4521,12 +4483,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/events');
-						
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/events', {}, additionalFields);
 					}
 					if (operation === 'update') {
 						const eventLocator = this.getNodeParameter('eventId', i) as any;
@@ -4635,13 +4592,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/bank-transactions');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/bank-transactions', {}, additionalFields);
 					}
 				}
 
@@ -4667,13 +4618,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/contracts');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/contracts', {}, additionalFields);
 					}
 					if (operation === 'update') {
 						const contractLocator = this.getNodeParameter('contractId', i) as any;
@@ -4776,13 +4721,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/expense-payments');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/expense-payments', {}, additionalFields);
 					}
 				}
 
@@ -4815,13 +4754,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/payments');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/payments', {}, additionalFields);
 					}
 				}
 
@@ -4841,13 +4774,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/suppliers');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/suppliers', {}, additionalFields);
 					}
 				}
 
@@ -4867,13 +4794,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/supplier-contracts');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/supplier-contracts', {}, additionalFields);
 					}
 				}
 
@@ -4904,13 +4825,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/tasks');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/tasks', {}, additionalFields);
 					}
 					if (operation === 'delete') {
 						const taskLocator = this.getNodeParameter('taskId', i) as any;
@@ -4942,13 +4857,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/tickets');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/tickets', {}, additionalFields);
 					}
 					if (operation === 'update') {
 						const ticketLocator = this.getNodeParameter('ticketId', i) as any;
@@ -4989,13 +4898,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/timetrackings');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/timetrackings', {}, additionalFields);
 					}
 					if (operation === 'getTaskTimetrackings') {
 						const taskLocator = this.getNodeParameter('taskId', i) as any;
@@ -5061,13 +4964,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/supplier-deliveries');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/supplier-deliveries', {}, additionalFields);
 					}
 					if (operation === 'createReceipt') {
 						const supplierDeliveryLocator = this.getNodeParameter('supplierDeliveryId', i) as any;
@@ -5094,13 +4991,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/diverse-operations');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/diverse-operations', {}, additionalFields);
 					}
 				}
 
@@ -5119,13 +5010,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/delivery-forms');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/delivery-forms', {}, additionalFields);
 					}
 					if (operation === 'download') {
 						const deliveryFormLocator = this.getNodeParameter('deliveryFormId', i) as any;
@@ -5155,13 +5040,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/themes');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/themes', {}, additionalFields);
 					}
 				}
 
@@ -5186,13 +5065,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/bank-accounts');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/bank-accounts', {}, additionalFields);
 					}
 				}
 
@@ -5223,13 +5096,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/company-categories');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/company-categories', {}, additionalFields);
 					}
 				}
 
@@ -5254,13 +5121,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/taskNatures');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/taskNatures', {}, additionalFields);
 					}
 				}
 
@@ -5285,13 +5146,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/projectNatures');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/projectNatures', {}, additionalFields);
 					}
 				}
 
@@ -5316,13 +5171,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/tax-rates');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/tax-rates', {}, additionalFields);
 					}
 				}
 
@@ -5353,13 +5202,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/accounting-codes');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/accounting-codes', {}, additionalFields);
 					}
 				}
 
@@ -5384,13 +5227,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/languages');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/languages', {}, additionalFields);
 					}
 				}
 
@@ -5403,13 +5240,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/workforces');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/workforces', {}, additionalFields);
 					}
 				}
 
@@ -5434,13 +5265,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/payslips');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/payslips', {}, additionalFields);
 					}
 				}
 
@@ -5465,13 +5290,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/pipes');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/pipes', {}, additionalFields);
 					}
 				}
 
@@ -5490,13 +5309,7 @@ export class Axonaut implements INodeType {
 					}
 					if (operation === 'getAll') {
 						const additionalFields = this.getNodeParameter('additionalFields', i, {}) as any;
-						responseData = await axonautApiRequest.call(this, 'GET', '/workforces');
-						
-						// Apply client-side limit
-						const limit = additionalFields.limit as number;
-						if (limit && Array.isArray(responseData) && responseData.length > limit) {
-							responseData = responseData.slice(0, limit);
-						}
+						responseData = await axonautApiRequestAllItems.call(this, 'GET', '/workforces', {}, additionalFields);
 					}
 				}
 
