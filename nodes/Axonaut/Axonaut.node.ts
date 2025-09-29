@@ -720,10 +720,10 @@ export class Axonaut implements INodeType {
 						action: 'Get a address',
 					},
 					{
-						name: 'Get All',
+						name: 'Get Many',
 						value: 'getAll',
 						description: 'Get all addresses of a company',
-						action: 'Get all addresses',
+						action: 'Get many addresses',
 					},
 					{
 						name: 'Update',
@@ -1585,7 +1585,7 @@ export class Axonaut implements INodeType {
 						name: 'Get Users',
 						value: 'getUsers',
 						description: 'Get all users of the account',
-						action: 'Get all users',
+						action: 'Get many users',
 					},
 					{
 						name: 'Get Custom Fields',

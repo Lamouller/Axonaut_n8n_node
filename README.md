@@ -255,6 +255,10 @@ npm link n8n-nodes-axonaut-antislash
 
 ## Version History
 
+- **v2.3.4** - 🎨 **UI CONSISTENCY IMPROVEMENT**
+  - Standardized all "Get All" operations to "Get Many" for consistent user interface
+  - Improved action naming consistency across all resources
+  - Enhanced user experience with uniform operation naming
 - **v2.3.3** - 🔧 **COMPLETE PAGINATION FIX**
   - Fixed ALL remaining getAll operations to use intelligent pagination
   - 32+ endpoints now use axonautApiRequestAllItems with header-based pagination
